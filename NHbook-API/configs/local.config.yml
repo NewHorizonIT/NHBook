@@ -1,0 +1,23 @@
+server:
+  host: localhost
+  port: 3030
+mysql:
+  user: root
+  password: nhbookroot
+  host: 127.0.0.1
+  port: 3306
+  name: nhbook
+  maxIdleConnect: 10
+  maxOpenConnect: 3600
+  maxConnectTimeLife: 3600
+logger:
+  fileName: ./storgae/log/dev.001.log
+  maxSize: 50
+  maxBackups: 3
+  maxAge: 30
+  compress: true
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password:
+  db: 0
