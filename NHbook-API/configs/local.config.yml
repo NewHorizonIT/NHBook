@@ -21,3 +21,8 @@ redis:
   port: 6379
   password:
   db: 0
+JWT:
+  secret: "your-secret-key"      
+  algorithm: "HS256"             
+  access_token_expiry: "2d"    
+  refresh_token_expiry: "7d" 

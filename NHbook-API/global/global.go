@@ -13,5 +13,6 @@ var (
 	MySQL  *gorm.DB
 	Viper  *viper.Viper
 	Logger *zap.Logger
+	JWT    config.JWTConfig
 	Redis  *redis.Client
 )
