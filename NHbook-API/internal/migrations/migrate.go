@@ -12,6 +12,7 @@ func Migrate(db *gorm.DB) {
 		&models.User{},
 		&models.Role{},
 		&models.Permission{},
+		&models.Token{},
 	)
 
 	if err != nil {

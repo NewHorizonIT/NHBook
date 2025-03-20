@@ -3,15 +3,14 @@ package models
 import (
 	"time"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
-
-	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/utils"
 )
 
 type User struct {
 	ID        string `gorm:"column:user_id;primaryKey;size:36"`
 	UserName  string `gorm:"size:20;not null"`
-	Phone     string `gorm:"size:10;unique"`
+	Phone     string `gorm:"size:10"`
 	Email     string `gorm:"size:50;unique;not null"`
 	Password  string `gorm:"size:100"`
 	Avatar    string `gorm:"size:255"`
@@ -26,9 +25,9 @@ type User struct {
 func (u *User) TableName() string {
 	return "users"
 }
-
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
-	hashedPassword, _ := utils.HashPassword(u.Password)
-	u.Password = hashedPassword
-	return
+	if u.ID == "" { // Tránh ghi đè nếu ID đã có
+		u.ID = uuid.NewString()
+	}
+	return nil
 }

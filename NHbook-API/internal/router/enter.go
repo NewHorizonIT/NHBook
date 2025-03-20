@@ -5,4 +5,4 @@ type RouterGroup struct {
 	AuthRouter
 }
 
-var NewRoutergroup = new(RouterGroup)
+var NewRouterGroup = new(RouterGroup)

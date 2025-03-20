@@ -22,7 +22,7 @@ redis:
   password:
   db: 0
 JWT:
-  secret: "your-secret-key"      
-  algorithm: "HS256"             
-  access_token_expiry: "2d"    
-  refresh_token_expiry: "7d" 
+  secret: your-secret-key   
+  algorithm: HS256          
+  accessTokenExpiry: 44h 
+  refreshTokenExpiry: 168h

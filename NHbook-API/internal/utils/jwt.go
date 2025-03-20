@@ -8,12 +8,6 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-// Convert key to slice byte
-var (
-	jwtConfig = global.JWT
-	secretKey = []byte(jwtConfig.Secret)
-)
-
 // Claim of token
 
 type Claim struct {
@@ -23,8 +17,9 @@ type Claim struct {
 }
 
 func CreateTokenPair(userID string, email string) (string, string, error) {
-
-	accessExp, _ := time.ParseDuration(jwtConfig.AccessTokenExpiry)
+	jc := global.Config.JWT
+	secretKey := []byte(jc.Secret)
+	accessExp, _ := time.ParseDuration(jc.AccessTokenExpiry)
 
 	accessClaims := Claim{
 		UserID: userID,
@@ -35,13 +30,13 @@ func CreateTokenPair(userID string, email string) (string, string, error) {
 		},
 	}
 
-	accessToken := jwt.NewWithClaims(jwt.SigningMethodES256, accessClaims)
+	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessClaims)
 	accessTokenString, err := accessToken.SignedString(secretKey)
 	if err != nil {
 		return "", "", err
 	}
 
-	refreshExp, _ := time.ParseDuration(jwtConfig.RefreshTokenExpiry)
+	refreshExp, _ := time.ParseDuration(jc.RefreshTokenExpiry)
 
 	refreshClaim := Claim{
 		UserID: userID,
@@ -52,7 +47,7 @@ func CreateTokenPair(userID string, email string) (string, string, error) {
 		},
 	}
 
-	refreshToken := jwt.NewWithClaims(jwt.SigningMethodES256, refreshClaim)
+	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaim)
 	refreshTokenString, err := refreshToken.SignedString(secretKey)
 
 	if err != nil {
@@ -62,6 +57,8 @@ func CreateTokenPair(userID string, email string) (string, string, error) {
 }
 
 func VerifyToken(tokenString string) (*Claim, error) {
+	jc := global.Config.JWT
+	secretKey := []byte(jc.Secret)
 	token, err := jwt.ParseWithClaims(tokenString, &Claim{}, func(t *jwt.Token) (interface{}, error) {
 		return []byte(secretKey), nil
 	})
