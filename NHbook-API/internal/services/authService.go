@@ -104,14 +104,14 @@ func (a *authService) Login(user *request.LoginRequest) (*response.LoginResponse
 	}
 
 	if foundUser == nil {
-		return nil, utils.FormatError(ErrEmailNotExists, nil)
+		return nil, utils.FormatError(ErrEmailNotExists)
 	}
 
 	// Step 2: Compare password
 	isMatch := utils.CompareHashPassword(user.Password, foundUser.Password)
 
 	if !isMatch {
-		return nil, utils.FormatError(ErrMatchPassword, nil)
+		return nil, utils.FormatError(ErrMatchPassword)
 	}
 
 	// Step 3: Create new AccessToken and RefreshToken

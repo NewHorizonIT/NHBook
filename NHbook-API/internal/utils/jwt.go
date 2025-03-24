@@ -19,8 +19,9 @@ type Claim struct {
 func CreateTokenPair(userID string, email string) (string, string, error) {
 	jc := global.Config.JWT
 	secretKey := []byte(jc.Secret)
+	// CREATE ACCESS TOKEN
 	accessExp, _ := time.ParseDuration(jc.AccessTokenExpiry)
-
+	// Step 1: Create Claim
 	accessClaims := Claim{
 		UserID: userID,
 		Email:  email,
@@ -29,15 +30,17 @@ func CreateTokenPair(userID string, email string) (string, string, error) {
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
-
+	// Step 2: Create Token
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessClaims)
+	// Step 3: Create String access token
 	accessTokenString, err := accessToken.SignedString(secretKey)
 	if err != nil {
 		return "", "", err
 	}
 
+	// CREATE REFRESH TOKEN
 	refreshExp, _ := time.ParseDuration(jc.RefreshTokenExpiry)
-
+	// Step 1: Create Claim refresh token
 	refreshClaim := Claim{
 		UserID: userID,
 		Email:  email,
@@ -46,8 +49,9 @@ func CreateTokenPair(userID string, email string) (string, string, error) {
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
-
+	// Step 2: Create RefreshToken
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaim)
+	// Step 3: Create string refresh token
 	refreshTokenString, err := refreshToken.SignedString(secretKey)
 
 	if err != nil {

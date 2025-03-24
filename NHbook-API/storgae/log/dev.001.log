@@ -169,3 +169,33 @@
 {"level":"INFO","time":"2025-03-20T20:53:20.795+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
 {"level":"INFO","time":"2025-03-20T20:53:20.797+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
 {"level":"ERROR","time":"2025-03-20T20:53:21.008+0700","caller":"migrations/migrate.go:19","msg":"Migrate err","err":"Error 1553 (HY000): Cannot drop index 'uni_tokens_user_id': needed in a foreign key constraint"}
+{"level":"INFO","time":"2025-03-24T08:06:30.023+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:06:30.058+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"ERROR","time":"2025-03-24T08:06:30.281+0700","caller":"migrations/migrate.go:20","msg":"Migrate err","err":"Error 1553 (HY000): Cannot drop index 'uni_tokens_user_id': needed in a foreign key constraint"}
+{"level":"INFO","time":"2025-03-24T08:08:05.608+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:08:05.610+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"ERROR","time":"2025-03-24T08:08:05.827+0700","caller":"migrations/migrate.go:20","msg":"Migrate err","err":"Error 1553 (HY000): Cannot drop index 'uni_tokens_user_id': needed in a foreign key constraint"}
+{"level":"INFO","time":"2025-03-24T08:11:04.506+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:11:04.510+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-03-24T08:11:04.905+0700","caller":"migrations/migrate.go:22","msg":"Migrate success"}
+{"level":"INFO","time":"2025-03-24T08:18:52.479+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:18:52.485+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-03-24T08:18:52.826+0700","caller":"migrations/migrate.go:22","msg":"Migrate success"}
+{"level":"INFO","time":"2025-03-24T08:22:13.873+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:22:13.882+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-03-24T08:22:14.216+0700","caller":"migrations/migrate.go:22","msg":"Migrate success"}
+{"level":"INFO","time":"2025-03-24T08:25:19.923+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:25:19.927+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-03-24T08:25:20.166+0700","caller":"migrations/migrate.go:22","msg":"Migrate success"}
+{"level":"INFO","time":"2025-03-24T08:26:08.005+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:26:08.007+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-03-24T08:26:08.358+0700","caller":"migrations/migrate.go:22","msg":"Migrate success"}
+{"level":"INFO","time":"2025-03-24T08:27:09.175+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:27:09.177+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-03-24T08:27:09.615+0700","caller":"migrations/migrate.go:22","msg":"Migrate success"}
+{"level":"INFO","time":"2025-03-24T08:27:51.744+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:27:51.746+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-03-24T08:27:52.009+0700","caller":"migrations/migrate.go:22","msg":"Migrate success"}
+{"level":"INFO","time":"2025-03-24T08:29:57.001+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-03-24T08:29:57.003+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-03-24T08:29:57.366+0700","caller":"migrations/migrate.go:22","msg":"Migrate success"}
