@@ -26,7 +26,7 @@ func (u *User) TableName() string {
 	return "users"
 }
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
-	if u.ID == "" { // Tránh ghi đè nếu ID đã có
+	if u.ID == "" {
 		u.ID = uuid.NewString()
 	}
 	return nil

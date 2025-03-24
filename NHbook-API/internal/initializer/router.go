@@ -2,6 +2,7 @@ package initializer
 
 import (
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/global"
+	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/middlewares"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/router"
 	"github.com/gin-gonic/gin"
 )
@@ -15,6 +16,9 @@ func InitRouter() *gin.Engine {
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
+	// Middleware
+
+	r.Use(middlewares.CheckApiKey())
 	// Setup Group Router
 	newGroupRouter := router.NewRouterGroup
 	userRouter := newGroupRouter.UserRouter
