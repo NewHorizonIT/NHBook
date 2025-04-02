@@ -13,4 +13,5 @@ func InitServer() {
 	// Init from package initializer
 	InitMySQL()
 	InitRedis()
+	InitCloudinary()
 }

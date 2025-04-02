@@ -13,6 +13,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// Injectors from bookHandler.go:
+
+func InitBookHandler(db *gorm.DB) (*handlers.BookHandler, error) {
+	iBookRepository := repositories.NewBookRepository(db)
+	iBookService := services.NewBookService(iBookRepository)
+	iAuthorRepository := repositories.NewAuthorRepository(db)
+	iAuthorService := services.NewAuthorService(iAuthorRepository)
+	iCategoryRepository := repositories.NewCategoryRepository(db)
+	iCategoryService := services.NewCategoryService(iCategoryRepository)
+	bookHandler := handlers.NewBookHandler(iBookService, iAuthorService, iCategoryService)
+	return bookHandler, nil
+}
+
 // Injectors from userHandler.go:
 
 func InitAuthHandler(db *gorm.DB) (*handlers.AuthHandler, error) {

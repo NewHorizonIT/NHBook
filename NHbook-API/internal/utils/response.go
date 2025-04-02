@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ResponseSucess struct {
+type ResponseSuccess struct {
 	StatusCode int    `json:"status"`
 	Message    string `json:"message"`
 	Metadata   any    `json:"metadata"`
@@ -17,7 +17,7 @@ type ResponseError struct {
 }
 
 func WriteResponse(c *gin.Context, statusCode int, message string, metadata any, options any) {
-	res := ResponseSucess{
+	res := ResponseSuccess{
 		Message:    message,
 		StatusCode: statusCode,
 		Metadata:   metadata,

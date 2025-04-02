@@ -14,10 +14,14 @@ func Migrate(db *gorm.DB) {
 		&models.Permission{},
 		&models.Token{},
 		&models.ApiKey{},
+		&models.Category{},
+		&models.Author{},
+		&models.Book{},
 	)
 
 	if err != nil {
 		global.Logger.Error("Migrate err", zap.String("err", err.Error()))
+		panic("Migrate Error")
 	} else {
 		global.Logger.Info("Migrate success")
 	}

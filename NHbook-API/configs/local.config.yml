@@ -26,3 +26,7 @@ JWT:
   algorithm: HS256          
   accessTokenExpiry: 44h 
   refreshTokenExpiry: 168h
+cloudinary:
+  cloudName: "dwcdzqjio"
+  apiKey: "823778338791193"
+  apiSecret: "aPx5t6iibWqUe5kgUvtTuV_eqpg"

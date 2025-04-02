@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/global"
@@ -13,6 +14,7 @@ import (
 func CheckApiKey() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		apiKey := c.GetHeader(global.HEADER_API_KEY)
+		fmt.Print("APIKEY :: ", apiKey)
 
 		if apiKey == "" {
 			utils.WriteError(c, http.StatusForbidden, "Missing API KEY")
