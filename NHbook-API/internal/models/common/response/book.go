@@ -8,7 +8,8 @@ type CreateBookResponse struct {
 	ImageURL    string    `json:"imageUrl"`
 	Price       int64     `json:"price"`
 	Description string    `json:"description"`
-	Author      string    `json:"author"`
+	PublishedAt string    `json:"publishAt"`
+	Authors     []string  `json:"authors"`
 	Stock       int       `json:"stock"`
 	Category    string    `json:"category"`
 	CategoryID  uint      `json:"categoryID"`

@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/global"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models/common/request"
+	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models/common/response"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/services"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/utils"
 	"github.com/gin-gonic/gin"
@@ -79,7 +79,6 @@ func (bh *BookHandler) CreateBook(c *gin.Context) {
 		utils.WriteError(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Println(listAuthor)
 	// Create new Book
 	newBook := models.Book{
 		Title:       req.Title,
@@ -92,15 +91,30 @@ func (bh *BookHandler) CreateBook(c *gin.Context) {
 		PublishedAt: publishedAt,
 	}
 
-	res, err := bh.bookService.CreateBook(&newBook, tx)
+	book, err := bh.bookService.CreateBook(&newBook, tx)
 
 	if err != nil {
 		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrTransaction, err).Error())
 		tx.Rollback()
 		return
 	}
+
+	metadata := &response.CreateBookResponse{
+		ID:          book.ID,
+		Title:       book.Title,
+		ImageURL:    book.ImageURL,
+		Price:       book.Price,
+		Description: book.Description,
+		PublishedAt: book.PublishedAt.Format(time.DateOnly),
+		Authors:     req.Authors,
+		Stock:       book.Stock,
+		Category:    name,
+		CategoryID:  book.CategoryID,
+		CreatedAt:   book.CreatedAt,
+	}
+
 	tx.Commit()
 	// Step 2: Create book
-	utils.WriteResponse(c, http.StatusOK, "Create book Success", res, nil)
+	utils.WriteResponse(c, http.StatusOK, "Create book Success", metadata, nil)
 
 }
