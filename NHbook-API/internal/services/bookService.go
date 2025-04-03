@@ -8,10 +8,24 @@ import (
 
 type IBookService interface {
 	CreateBook(book *models.Book, tx *gorm.DB) (*models.Book, error)
+	GetListBook(limit int, page int, categoryID int, authorID int) ([]models.Book, error)
 }
 
 type bookService struct {
 	bookRepo repositories.IBookRepository
+}
+
+// GetListBook implements IBookService.
+func (b *bookService) GetListBook(limit int, page int, categoryID int, authorID int) ([]models.Book, error) {
+	var books []models.Book
+
+	books, err := b.bookRepo.GetListBook(limit, page, categoryID, authorID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return books, nil
 }
 
 // CreateBook implements IBookService.

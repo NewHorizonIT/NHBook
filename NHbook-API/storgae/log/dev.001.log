@@ -346,3 +346,51 @@
 {"level":"INFO","time":"2025-04-02T22:45:16.876+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
 {"level":"INFO","time":"2025-04-02T22:45:16.886+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
 {"level":"INFO","time":"2025-04-02T22:45:17.228+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:15:21.239+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:15:21.282+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:15:21.739+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:17:16.702+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:17:16.704+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:17:17.221+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:19:51.812+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:19:51.816+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:19:52.203+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:27:18.711+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:27:18.714+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:27:19.449+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:34:20.067+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:34:20.072+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:34:20.412+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:34:37.726+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:34:37.727+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:34:38.026+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:35:09.062+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:35:09.066+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:35:09.351+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:39:35.930+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:39:35.933+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:39:36.221+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T08:42:46.773+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T08:42:46.778+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T08:42:47.141+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T09:18:43.110+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T09:18:43.128+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T09:18:44.351+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T09:19:22.840+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T09:19:22.842+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T09:19:23.199+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T09:25:08.354+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T09:25:08.359+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T09:25:08.812+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T09:31:15.889+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T09:31:15.890+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T09:31:16.340+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T09:32:47.566+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T09:32:47.569+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T09:32:47.869+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T09:55:08.014+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T09:55:08.026+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T09:55:08.629+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-03T09:57:05.500+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-03T09:57:05.502+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-03T09:57:05.856+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}

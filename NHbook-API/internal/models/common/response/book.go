@@ -1,6 +1,10 @@
 package response
 
-import "time"
+import (
+	"time"
+
+	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models"
+)
 
 type CreateBookResponse struct {
 	ID          uint      `json:"id"`
@@ -14,4 +18,11 @@ type CreateBookResponse struct {
 	Category    string    `json:"category"`
 	CategoryID  uint      `json:"categoryID"`
 	CreatedAt   time.Time `json:"createdAt"`
+}
+
+type GetBookResponse struct {
+	Limit int           `json:"limit"`
+	Page  int           `json:"page"`
+	Total int           `json:"total"`
+	Books []models.Book `json:"books"`
 }

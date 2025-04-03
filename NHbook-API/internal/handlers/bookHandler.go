@@ -3,6 +3,7 @@ package handlers
 import (
 	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/global"
@@ -17,6 +18,7 @@ import (
 var (
 	ErrBindBody    = errors.New("binding body error")
 	ErrTransaction = errors.New("transaction error")
+	ErrGetBook     = errors.New("get book error")
 )
 
 type BookHandler struct {
@@ -117,4 +119,51 @@ func (bh *BookHandler) CreateBook(c *gin.Context) {
 	// Step 2: Create book
 	utils.WriteResponse(c, http.StatusOK, "Create book Success", metadata, nil)
 
+}
+
+func (bh *BookHandler) GetListBook(c *gin.Context) {
+	page := c.DefaultQuery("page", "1")
+	limit := c.DefaultQuery("limit", "10")
+	categoryID := c.DefaultQuery("category_id", "0")
+	authorID := c.DefaultQuery("author_id", "0")
+
+	pageInt, err := strconv.Atoi(page)
+	if err != nil {
+		utils.WriteError(c, http.StatusBadRequest, "Invalid page parameter")
+		return
+	}
+
+	limitInt, err := strconv.Atoi(limit)
+	if err != nil {
+		utils.WriteError(c, http.StatusBadRequest, "Invalid limit parameter")
+		return
+	}
+
+	categoryIDInt, err := strconv.Atoi(categoryID)
+	if err != nil {
+		utils.WriteError(c, http.StatusBadRequest, "Invalid limit parameter")
+		return
+	}
+
+	authorIDInt, err := strconv.Atoi(authorID)
+	if err != nil {
+		utils.WriteError(c, http.StatusBadRequest, "Invalid limit parameter")
+		return
+	}
+
+	books, err := bh.bookService.GetListBook(limitInt, pageInt, categoryIDInt, authorIDInt)
+
+	if err != nil {
+		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrGetBook, err).Error())
+		return
+	}
+
+	res := &response.GetBookResponse{
+		Limit: limitInt,
+		Page:  pageInt,
+		Total: len(books),
+		Books: books,
+	}
+
+	utils.WriteResponse(c, http.StatusOK, "Get All Book Success", res, nil)
 }
