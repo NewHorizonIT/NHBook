@@ -10,6 +10,7 @@ import (
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/handlers"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/repositories"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/services"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -24,6 +25,17 @@ func InitBookHandler(db *gorm.DB) (*handlers.BookHandler, error) {
 	iCategoryService := services.NewCategoryService(iCategoryRepository)
 	bookHandler := handlers.NewBookHandler(iBookService, iAuthorService, iCategoryService)
 	return bookHandler, nil
+}
+
+// Injectors from cartHanlder.go:
+
+func IniCartHandler(rd *redis.Client, db *gorm.DB) (*handlers.CartHandler, error) {
+	iCartRepository := repositories.NewCartRepository(rd)
+	iCartService := services.NewCartService(iCartRepository)
+	iBookRepository := repositories.NewBookRepository(db)
+	iBookService := services.NewBookService(iBookRepository)
+	cartHandler := handlers.NewCartHandler(iCartService, iBookService)
+	return cartHandler, nil
 }
 
 // Injectors from userHandler.go:

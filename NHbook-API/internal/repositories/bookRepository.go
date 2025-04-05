@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"errors"
+
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models"
 	"gorm.io/gorm"
 )
@@ -9,10 +11,26 @@ type IBookRepository interface {
 	CreateBook(book *models.Book, tx *gorm.DB) error
 	GetBookByID(bookID uint) (*models.Book, error)
 	GetListBook(limit int, page int, categoryID int, authorID int) ([]models.Book, error)
+	IsExistBook(bookID int) (bool, error)
 }
 
 type bookRepository struct {
 	db *gorm.DB
+}
+
+// FindBookByID implements IBookRepository.
+func (b *bookRepository) IsExistBook(bookID int) (bool, error) {
+	err := b.db.Where("id = ?", bookID).First(&models.Book{}).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return false, nil
+	}
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 // GetListBook implements IBookRepository.
