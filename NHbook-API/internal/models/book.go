@@ -11,7 +11,7 @@ type Book struct {
 	Title       string    `gorm:"not null"`
 	Authors     []Author  `gorm:"many2many:book_author;"`
 	ImageURL    string    `gorm:"default:''"`
-	Price       int64     `gorm:"default:0"`
+	Price       int       `gorm:"default:0"`
 	Description string    `gorm:"type:text"`
 	Stock       int       `gorm:"default:0"`
 	CategoryID  uint      `gorm:"not null"`
