@@ -43,7 +43,7 @@ func (c *cartRepository) AddToCart(userID string, item *models.CartItem) error {
 	for i, v := range cart {
 		if v.ID == item.ID {
 			cart[i].Quantity += item.Quantity
-			cart[i].Total += float64(item.Quantity) * item.Price
+			cart[i].Total += item.Quantity * item.Price
 			updated = true
 		}
 	}

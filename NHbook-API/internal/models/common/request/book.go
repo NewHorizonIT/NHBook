@@ -4,7 +4,7 @@ type CreateBookRequest struct {
 	Title       string   `json:"title"`
 	Authors     []string `json:"authors"`
 	ImageURL    string   `json:"imageUrl"`
-	Price       int64    `json:"price"`
+	Price       int      `json:"price"`
 	Description string   `json:"description"`
 	Stock       int      `json:"stock"`
 	CategoryID  uint     `json:"categoryId"`
