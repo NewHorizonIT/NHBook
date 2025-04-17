@@ -33,12 +33,14 @@ func InitRouter() *gin.Engine {
 	authRouter := newGroupRouter.AuthRouter
 	bookRouter := newGroupRouter.BookRouter
 	cartRouter := newGroupRouter.CartRouter
+	orderRouter := newGroupRouter.OrderRouter
 	api := r.Group("/api/v1")
 	{
 		userRouter.SetupRouter(api)
 		authRouter.SetupRouter(api)
 		bookRouter.SetUpBookRouter(api)
 		cartRouter.SetUpRouter(api)
+		orderRouter.SetupRouter(api)
 	}
 
 	return r

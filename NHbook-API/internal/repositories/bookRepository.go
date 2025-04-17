@@ -12,10 +12,45 @@ type IBookRepository interface {
 	GetBookByID(bookID uint) (*models.Book, error)
 	GetListBook(limit int, page int, categoryID int, authorID int) ([]models.Book, error)
 	IsExistBook(bookID int) (bool, error)
+	GetStock(bookID int) (int, error)
+	UpdateStock(tx *gorm.DB, bookID int, stock int) error
+	GetTitleBookByID(tx *gorm.DB, bookID uint) (string, error)
 }
 
 type bookRepository struct {
 	db *gorm.DB
+}
+
+// GetTitleBookByID implements IBookRepository.
+func (b *bookRepository) GetTitleBookByID(tx *gorm.DB, bookID uint) (string, error) {
+	var book models.Book
+	if err := tx.Model(&models.Book{}).Where("id = ?", bookID).Select("title").Scan(&book).Error; err != nil {
+		return "", err
+	}
+
+	return book.Title, nil
+}
+
+// UpdateStock implements IBookRepository.
+func (b *bookRepository) UpdateStock(tx *gorm.DB, bookID int, stock int) error {
+	var currentStock int
+	if err := tx.Model(&models.Book{}).Where("id = ?", bookID).Select("stock").Scan(&currentStock).Error; err != nil {
+		return err
+	}
+	newStock := currentStock - stock
+	return tx.Model(&models.Book{}).Where("id = ?", bookID).Update("stock", newStock).Error
+}
+
+// GetStock implements IBookRepository.
+func (b *bookRepository) GetStock(bookID int) (int, error) {
+	var stock int
+	err := b.db.Model(models.Book{}).Where("id = ?", bookID).First(&models.Book{}).Select("stock").Scan(&stock).Error
+
+	if err != nil {
+		return -1, err
+	}
+
+	return stock, nil
 }
 
 // FindBookByID implements IBookRepository.
