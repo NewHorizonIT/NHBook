@@ -30,7 +30,7 @@ func (ch *CartHandler) AddItemToCart(c *gin.Context) {
 	// Step 2: Binding body
 	var item models.CartItem
 	if err := c.ShouldBindJSON(&item); err != nil {
-		utils.WriteError(c, http.StatusBadRequest, "Body invalid")
+		utils.WriteError(c, http.StatusBadRequest, err.Error())
 		return
 	}
 

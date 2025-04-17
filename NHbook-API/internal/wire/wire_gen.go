@@ -38,6 +38,18 @@ func IniCartHandler(rd *redis.Client, db *gorm.DB) (*handlers.CartHandler, error
 	return cartHandler, nil
 }
 
+// Injectors from orderHandler.go:
+
+func InitOrderHandler(db *gorm.DB, rd *redis.Client) (*handlers.OrderHandler, error) {
+	iOrderRepository := repositories.NewOrderRepository(db, rd)
+	iUserRepository := repositories.NewUserRepository(db)
+	iBookRepository := repositories.NewBookRepository(db)
+	iCartRepository := repositories.NewCartRepository(rd)
+	iOrderService := services.NewOrderService(iOrderRepository, iUserRepository, iBookRepository, iCartRepository)
+	orderHandler := handlers.NewOrderHandler(iOrderService)
+	return orderHandler, nil
+}
+
 // Injectors from userHandler.go:
 
 func InitAuthHandler(db *gorm.DB) (*handlers.AuthHandler, error) {

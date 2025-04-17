@@ -15,3 +15,11 @@ const (
 	OrderStatusCompleted = "completed"
 	OrderStatusCancelled = "cancelled"
 )
+
+// Define variable payment method order
+
+const (
+	OrderPaymentMethodCOD  = "cod"
+	OrderPaymentMethodMOMO = "momo"
+	OrderPaymentMethodBank = "bank"
+)

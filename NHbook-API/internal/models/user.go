@@ -8,16 +8,17 @@ import (
 )
 
 type User struct {
-	ID        string `gorm:"column:user_id;primaryKey;size:36"`
-	UserName  string `gorm:"size:20;not null"`
-	Phone     string `gorm:"size:10"`
-	Email     string `gorm:"size:50;unique;not null"`
-	Password  string `gorm:"size:100"`
-	Avatar    string `gorm:"size:255"`
-	Status    int    `gorm:"default:1"`
-	Address   string `gorm:"size:100"`
-	Roles     []Role `gorm:"many2many:user_roles"`
-	Token     Token  `gorm:"foreignKey:UserID"`
+	ID        string  `gorm:"column:user_id;primaryKey;size:36"`
+	UserName  string  `gorm:"size:20;not null"`
+	Phone     string  `gorm:"size:10"`
+	Email     string  `gorm:"size:50;unique;not null"`
+	Password  string  `gorm:"size:100"`
+	Avatar    string  `gorm:"size:255"`
+	Status    int     `gorm:"default:1"`
+	Address   string  `gorm:"size:100"`
+	Roles     []Role  `gorm:"many2many:user_roles"`
+	Orders    []Order `gorm:"foreignKey:UserID"`
+	Token     Token   `gorm:"foreignKey:UserID"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

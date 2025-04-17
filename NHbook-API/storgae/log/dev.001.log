@@ -442,3 +442,87 @@
 {"level":"INFO","time":"2025-04-05T06:58:22.600+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
 {"level":"INFO","time":"2025-04-05T06:58:22.603+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
 {"level":"INFO","time":"2025-04-05T06:58:23.083+0700","caller":"migrations/migrate.go:26","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-08T22:08:40.701+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-08T22:08:40.706+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-08T22:08:41.560+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T01:28:40.784+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T01:28:40.808+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"ERROR","time":"2025-04-17T01:28:42.195+0700","caller":"migrations/migrate.go:25","msg":"Migrate err","err":"Error 1832 (HY000): Cannot change column 'user_id': used in a foreign key constraint 'fk_orders_user'"}
+{"level":"INFO","time":"2025-04-17T01:32:58.368+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T01:32:58.373+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"ERROR","time":"2025-04-17T01:32:58.863+0700","caller":"migrations/migrate.go:25","msg":"Migrate err","err":"Error 1832 (HY000): Cannot change column 'user_id': used in a foreign key constraint 'fk_orders_user'"}
+{"level":"INFO","time":"2025-04-17T01:35:14.658+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T01:35:14.660+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T01:35:15.390+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T01:38:37.254+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T01:38:37.256+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T01:38:37.868+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T01:43:14.636+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T01:43:14.639+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T01:43:15.176+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T01:45:03.998+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T01:45:04.000+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T01:45:04.394+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T07:53:39.122+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T07:53:39.129+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T07:53:40.348+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T07:59:31.932+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T07:59:31.936+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T07:59:32.562+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T08:04:42.839+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:04:42.843+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T08:04:43.545+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T08:07:01.916+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:07:01.918+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T08:07:02.402+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T08:15:20.484+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:15:20.491+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T08:15:21.098+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T08:16:36.727+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:16:36.729+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"ERROR","time":"2025-04-17T08:16:36.817+0700","caller":"migrations/migrate.go:25","msg":"Migrate err","err":"Error 3780 (HY000): Referencing column 'user_id' and referenced column 'id' in foreign key constraint 'fk_orders_user' are incompatible."}
+{"level":"INFO","time":"2025-04-17T08:17:12.479+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:17:12.480+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"ERROR","time":"2025-04-17T08:17:12.550+0700","caller":"migrations/migrate.go:25","msg":"Migrate err","err":"Error 1824 (HY000): Failed to open the referenced table 'orders'"}
+{"level":"INFO","time":"2025-04-17T08:23:04.818+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:23:04.819+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"ERROR","time":"2025-04-17T08:23:04.823+0700","caller":"migrations/migrate.go:25","msg":"Migrate err","err":"invalid field found for struct github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models.User's field Orders: define a valid foreign key for relations or implement the Valuer/Scanner interface"}
+{"level":"INFO","time":"2025-04-17T08:27:06.647+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:27:06.652+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T08:27:07.356+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T08:29:25.021+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:29:25.023+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T08:29:25.441+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T08:29:48.607+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T08:29:48.611+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T08:29:49.041+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:15:33.567+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:15:33.574+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:15:34.422+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:16:59.609+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:16:59.611+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:17:00.100+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:18:30.011+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:18:30.013+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:18:30.567+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:21:50.106+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:21:50.108+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:21:50.473+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:22:34.029+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:22:34.030+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:22:34.457+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:27:46.089+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:27:46.091+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:27:46.495+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:28:25.484+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:28:25.485+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:28:25.920+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:30:02.507+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:30:02.508+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:30:02.915+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:37:13.970+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:37:13.979+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:37:14.450+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-04-17T09:38:04.066+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-04-17T09:38:04.067+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-04-17T09:38:04.483+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
