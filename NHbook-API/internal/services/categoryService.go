@@ -12,6 +12,7 @@ import (
 type ICategoryService interface {
 	CreateCategory(category *models.Category) (*response.CategoryResponse, error)
 	CheckCategoryExitsByID(categoryID uint, tx *gorm.DB) (string, error)
+	GetCategoryIDByName(category string) (int, error)
 }
 
 type categoryService struct {
@@ -37,6 +38,17 @@ func (c *categoryService) CheckCategoryExitsByID(categoryID uint, tx *gorm.DB) (
 // CreateCategory implements ICategoryService.
 func (c *categoryService) CreateCategory(category *models.Category) (*response.CategoryResponse, error) {
 	panic("unimplemented")
+}
+
+// GetCategoryIDByName implements ICategoryService.
+func (c *categoryService) GetCategoryIDByName(category string) (int, error) {
+	CategoryFound, err := c.categoryRepo.GetCategoryByName(category)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return int(CategoryFound.ID), nil
 }
 
 func NewCategoryService(categoryRepo repositories.ICategoryRepository) ICategoryService {

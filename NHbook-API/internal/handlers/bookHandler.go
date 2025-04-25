@@ -16,9 +16,10 @@ import (
 )
 
 var (
-	ErrBindBody    = errors.New("binding body error")
-	ErrTransaction = errors.New("transaction error")
-	ErrGetBook     = errors.New("get book error")
+	ErrBindBody         = errors.New("binding body error")
+	ErrTransaction      = errors.New("transaction error")
+	ErrGetBook          = errors.New("get book error")
+	ErrNotFoundCategory = errors.New("not found category")
 )
 
 type BookHandler struct {
@@ -162,8 +163,40 @@ func (bh *BookHandler) GetListBook(c *gin.Context) {
 		Limit: limitInt,
 		Page:  pageInt,
 		Total: len(books),
-		Books: books,
+		Data:  books,
 	}
 
 	utils.WriteResponse(c, http.StatusOK, "Get All Book Success", res, nil)
+}
+
+func (bh *BookHandler) GetListBookByCategory(c *gin.Context) {
+	limit, _ := strconv.ParseInt(c.DefaultQuery("limit", "20"), 10, 64)
+	page, _ := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 64)
+	query := &request.QueryLimit{
+		Limit: int(limit),
+		Page:  int(page),
+	}
+
+	category := c.Query("category")
+
+	if category == "" {
+		utils.WriteError(c, http.StatusBadRequest, ErrNotFoundCategory.Error())
+		return
+	}
+
+	categoryID, err := bh.categoryService.GetCategoryIDByName(category)
+
+	if err != nil {
+		utils.WriteError(c, http.StatusBadRequest, ErrNotFoundCategory.Error())
+		return
+	}
+
+	books, err := bh.bookService.GetListBookByCategory(categoryID, query)
+
+	if err != nil {
+		utils.WriteError(c, http.StatusBadRequest, err.Error())
+	}
+
+	utils.WriteResponse(c, http.StatusOK, "Get books Success", books, nil)
+
 }

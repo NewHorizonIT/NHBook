@@ -24,5 +24,12 @@ type GetBookResponse struct {
 	Limit int           `json:"limit"`
 	Page  int           `json:"page"`
 	Total int           `json:"total"`
-	Books []models.Book `json:"books"`
+	Data  []models.Book `json:"data"`
+}
+
+type GetListBookByCategoryResponse struct {
+	Quantity int           `json:"quantity" `
+	Limit    int           `json:"limit"`
+	Page     int           `json:"page"`
+	Data     []models.Book `json:"data"`
 }

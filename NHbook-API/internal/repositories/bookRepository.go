@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models"
+	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models/common/request"
 	"gorm.io/gorm"
 )
 
@@ -15,10 +16,23 @@ type IBookRepository interface {
 	GetStock(bookID int) (int, error)
 	UpdateStock(tx *gorm.DB, bookID int, stock int) error
 	GetTitleBookByID(tx *gorm.DB, bookID uint) (string, error)
+	GetListBookByCategory(category int, query *request.QueryLimit) ([]models.Book, error)
 }
 
 type bookRepository struct {
 	db *gorm.DB
+}
+
+// GetListBookByCategory implements IBookRepository.
+func (b *bookRepository) GetListBookByCategory(category int, query *request.QueryLimit) ([]models.Book, error) {
+	var books []models.Book
+	err := b.db.Model(&models.Book{}).Joins("categories").Where("categories.id = ?", category).Find(&books).Limit(query.Limit).Offset((query.Page - 1) * 20).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return books, nil
 }
 
 // GetTitleBookByID implements IBookRepository.
