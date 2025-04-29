@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"fmt"
 	"mime/multipart"
 
 	"github.com/cloudinary/cloudinary-go/v2"
@@ -13,9 +14,9 @@ func UploadImg(file multipart.File, fileName string, cld *cloudinary.Cloudinary)
 
 	result, err := cld.Upload.Upload(ctx, file, uploader.UploadParams{
 		PublicID: fileName,
-		Folder:   "./upload",
+		Folder:   "upload",
 	})
-
+	fmt.Println("URL: " + result.SecureURL)
 	if err != nil {
 		return "", err
 	}

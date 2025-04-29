@@ -15,6 +15,10 @@ func IniCartHandler(rd *redis.Client, db *gorm.DB) (*handlers.CartHandler, error
 	wire.Build(
 		repositories.NewCartRepository,
 		repositories.NewBookRepository,
+		repositories.NewCategoryRepository,
+		repositories.NewAuthorRepository,
+		services.NewCategoryService,
+		services.NewAuthorService,
 		services.NewCartService,
 		services.NewBookService,
 		handlers.NewCartHandler,

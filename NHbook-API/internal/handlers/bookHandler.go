@@ -4,15 +4,13 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
-	"time"
 
-	"github.com/NguyenAnhQuan-Dev/NKbook-API/global"
-	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models/common/request"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models/common/response"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/services"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 )
 
 var (
@@ -20,105 +18,54 @@ var (
 	ErrTransaction      = errors.New("transaction error")
 	ErrGetBook          = errors.New("get book error")
 	ErrNotFoundCategory = errors.New("not found category")
+	ErrCreateBook       = errors.New("create book unsuccess")
+	ErrGetFile          = errors.New("get file error")
+	ErrStrConvert       = errors.New("convert string error")
+	ErrGetListBook      = errors.New("get list book error")
 )
 
 type BookHandler struct {
-	bookService     services.IBookService
-	authorService   services.IAuthorService
-	categoryService services.ICategoryService
+	bookService services.IBookService
 }
 
-func NewBookHandler(bs services.IBookService, as services.IAuthorService, cs services.ICategoryService) *BookHandler {
+func NewBookHandler(bs services.IBookService) *BookHandler {
 	return &BookHandler{
-		bookService:     bs,
-		authorService:   as,
-		categoryService: cs,
+		bookService: bs,
 	}
 }
 
 func (bh *BookHandler) CreateBook(c *gin.Context) {
 	var req request.CreateBookRequest
 	// Step 1: Binding body
-	if err := c.ShouldBindJSON(&req); err != nil {
+	if err := c.ShouldBind(&req); err != nil {
 		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrBindBody, err).Error())
 		return
 	}
 
-	// Step 2: Create Book
-	tx := global.MySQL.Begin()
+	file, err := c.FormFile("thumbnail")
 
-	// Rollback if any error occurs
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-			utils.WriteError(c, http.StatusInternalServerError, "Unexpected error")
-		}
-	}()
-	// Get  author
-	authors := req.Authors
-	var listAuthor []models.Author
-
-	for _, author := range authors {
-		a, err := bh.authorService.CheckAuthorExists(author, tx)
-		if err != nil {
-			utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrTransaction, err).Error())
-			return
-		}
-		listAuthor = append(listAuthor, *a)
-	}
-
-	// Check Category exist
-	categoryID := req.CategoryID
-
-	name, err := bh.categoryService.CheckCategoryExitsByID(categoryID, tx)
-
-	if err != nil || name == "" {
-		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrTransaction, err).Error())
-		return
-	}
-
-	publishedAt, err := time.Parse(time.DateOnly, req.PublishedAt)
-	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, err.Error())
-		return
-	}
-	// Create new Book
-	newBook := models.Book{
-		Title:       req.Title,
-		Authors:     listAuthor,
-		ImageURL:    req.ImageURL,
-		Price:       req.Price,
-		Description: req.Description,
-		Stock:       req.Stock,
-		CategoryID:  req.CategoryID,
-		PublishedAt: publishedAt,
-	}
-
-	book, err := bh.bookService.CreateBook(&newBook, tx)
+	req.Thumbnail = file
 
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrTransaction, err).Error())
-		tx.Rollback()
+		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrGetFile, err).Error())
 		return
 	}
 
-	metadata := &response.CreateBookResponse{
-		ID:          book.ID,
-		Title:       book.Title,
-		ImageURL:    book.ImageURL,
-		Price:       book.Price,
-		Description: book.Description,
-		PublishedAt: book.PublishedAt.Format(time.DateOnly),
-		Authors:     req.Authors,
-		Stock:       book.Stock,
-		Category:    name,
-		CategoryID:  book.CategoryID,
-		CreatedAt:   book.CreatedAt,
-	}
-
-	tx.Commit()
 	// Step 2: Create book
-	utils.WriteResponse(c, http.StatusOK, "Create book Success", metadata, nil)
+	book, err := bh.bookService.CreateBook(&req)
+
+	if err != nil {
+		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrCreateBook, err).Error())
+		return
+	}
+
+	// Step 3: Create response
+
+	res := &response.NewBookResponse{}
+
+	copier.Copy(&res, book)
+
+	utils.WriteResponse(c, http.StatusCreated, "Create book success", res, nil)
 
 }
 
@@ -130,73 +77,62 @@ func (bh *BookHandler) GetListBook(c *gin.Context) {
 
 	pageInt, err := strconv.Atoi(page)
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, "Invalid page parameter")
+		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrStrConvert, err).Error())
 		return
 	}
 
 	limitInt, err := strconv.Atoi(limit)
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, "Invalid limit parameter")
+		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrStrConvert, err).Error())
 		return
 	}
 
 	categoryIDInt, err := strconv.Atoi(categoryID)
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, "Invalid limit parameter")
+		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrStrConvert, err).Error())
 		return
 	}
 
 	authorIDInt, err := strconv.Atoi(authorID)
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, "Invalid limit parameter")
+		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrStrConvert, err).Error())
 		return
 	}
 
-	books, err := bh.bookService.GetListBook(limitInt, pageInt, categoryIDInt, authorIDInt)
+	query := &request.QueryLimit{
+		Limit: limitInt,
+		Page:  pageInt,
+	}
+
+	books, err := bh.bookService.GetListBook(query, categoryIDInt, authorIDInt)
 
 	if err != nil {
 		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrGetBook, err).Error())
 		return
 	}
 
+	booksData := []response.BookData{}
+	copier.Copy(&booksData, books)
+
 	res := &response.GetBookResponse{
 		Limit: limitInt,
 		Page:  pageInt,
 		Total: len(books),
-		Data:  books,
+		Data:  booksData,
 	}
 
 	utils.WriteResponse(c, http.StatusOK, "Get All Book Success", res, nil)
 }
 
-func (bh *BookHandler) GetListBookByCategory(c *gin.Context) {
-	limit, _ := strconv.ParseInt(c.DefaultQuery("limit", "20"), 10, 64)
-	page, _ := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 64)
-	query := &request.QueryLimit{
-		Limit: int(limit),
-		Page:  int(page),
-	}
-
-	category := c.Query("category")
-
-	if category == "" {
-		utils.WriteError(c, http.StatusBadRequest, ErrNotFoundCategory.Error())
-		return
-	}
-
-	categoryID, err := bh.categoryService.GetCategoryIDByName(category)
+func (bh *BookHandler) GetBookDetail(c *gin.Context) {
+	bookID, _ := strconv.Atoi(c.Param("bookID"))
+	book, err := bh.bookService.GetBookByID(bookID)
 
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, ErrNotFoundCategory.Error())
-		return
+		utils.WriteError(c, http.StatusBadRequest, utils.FormatError(ErrGetBook, err).Error())
 	}
 
-	books, err := bh.bookService.GetListBookByCategory(categoryID, query)
-
-	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, err.Error())
-	}
-
-	utils.WriteResponse(c, http.StatusOK, "Get books Success", books, nil)
+	// Step 3: Create Response
+	utils.WriteResponse(c, http.StatusOK, "Get book Success", book, nil)
 
 }

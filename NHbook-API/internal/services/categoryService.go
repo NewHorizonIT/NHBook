@@ -1,8 +1,6 @@
 package services
 
 import (
-	"errors"
-
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models/common/response"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/repositories"
@@ -11,7 +9,7 @@ import (
 
 type ICategoryService interface {
 	CreateCategory(category *models.Category) (*response.CategoryResponse, error)
-	CheckCategoryExitsByID(categoryID uint, tx *gorm.DB) (string, error)
+	CheckCategoryExitsByID(categoryID int, tx *gorm.DB) (*models.Category, error)
 	GetCategoryIDByName(category string) (int, error)
 }
 
@@ -20,19 +18,14 @@ type categoryService struct {
 }
 
 // CheckCategoryExitsByID implements ICategoryService.
-func (c *categoryService) CheckCategoryExitsByID(categoryID uint, tx *gorm.DB) (string, error) {
-	var category models.Category
-	err := tx.Where("id = ?", categoryID).First(&category).Error
-
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return "", nil
-	}
+func (c *categoryService) CheckCategoryExitsByID(categoryID int, tx *gorm.DB) (*models.Category, error) {
+	category, err := c.categoryRepo.CheckCategoryIsExists(categoryID, tx)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return category.Name, nil
+	return category, nil
 }
 
 // CreateCategory implements ICategoryService.

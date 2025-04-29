@@ -14,7 +14,7 @@ type Book struct {
 	Price       int       `gorm:"default:0"`
 	Description string    `gorm:"type:text"`
 	Stock       int       `gorm:"default:0"`
-	CategoryID  uint      `gorm:"not null"`
+	CategoryID  int       `gorm:"not null"`
 	Category    Category  `gorm:"foreignKey:CategoryID"`
 	PublishedAt time.Time `gorm:"type:date"`
 }

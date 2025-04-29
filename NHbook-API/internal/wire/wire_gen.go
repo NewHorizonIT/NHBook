@@ -18,12 +18,12 @@ import (
 
 func InitBookHandler(db *gorm.DB) (*handlers.BookHandler, error) {
 	iBookRepository := repositories.NewBookRepository(db)
-	iBookService := services.NewBookService(iBookRepository)
 	iAuthorRepository := repositories.NewAuthorRepository(db)
 	iAuthorService := services.NewAuthorService(iAuthorRepository)
 	iCategoryRepository := repositories.NewCategoryRepository(db)
 	iCategoryService := services.NewCategoryService(iCategoryRepository)
-	bookHandler := handlers.NewBookHandler(iBookService, iAuthorService, iCategoryService)
+	iBookService := services.NewBookService(iBookRepository, iAuthorService, iCategoryService)
+	bookHandler := handlers.NewBookHandler(iBookService)
 	return bookHandler, nil
 }
 
@@ -33,7 +33,11 @@ func IniCartHandler(rd *redis.Client, db *gorm.DB) (*handlers.CartHandler, error
 	iCartRepository := repositories.NewCartRepository(rd)
 	iCartService := services.NewCartService(iCartRepository)
 	iBookRepository := repositories.NewBookRepository(db)
-	iBookService := services.NewBookService(iBookRepository)
+	iAuthorRepository := repositories.NewAuthorRepository(db)
+	iAuthorService := services.NewAuthorService(iAuthorRepository)
+	iCategoryRepository := repositories.NewCategoryRepository(db)
+	iCategoryService := services.NewCategoryService(iCategoryRepository)
+	iBookService := services.NewBookService(iBookRepository, iAuthorService, iCategoryService)
 	cartHandler := handlers.NewCartHandler(iCartService, iBookService)
 	return cartHandler, nil
 }

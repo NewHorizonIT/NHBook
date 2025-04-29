@@ -15,6 +15,7 @@ func (br *BookRouter) SetUpBookRouter(r *gin.RouterGroup) {
 	{
 		bookRouter.POST("/", bookHandler.CreateBook)
 		bookRouter.GET("/", bookHandler.GetListBook)
+		bookRouter.GET("/:bookID", bookHandler.GetBookDetail)
 	}
 
 }

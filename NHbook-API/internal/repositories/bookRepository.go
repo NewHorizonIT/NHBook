@@ -10,8 +10,8 @@ import (
 
 type IBookRepository interface {
 	CreateBook(book *models.Book, tx *gorm.DB) error
-	GetBookByID(bookID uint) (*models.Book, error)
-	GetListBook(limit int, page int, categoryID int, authorID int) ([]models.Book, error)
+	GetBookByID(bookID int) (*models.Book, error)
+	GetListBook(query *request.QueryLimit, categoryID int, authorID int) ([]models.Book, error)
 	IsExistBook(bookID int) (bool, error)
 	GetStock(bookID int) (int, error)
 	UpdateStock(tx *gorm.DB, bookID int, stock int) error
@@ -83,21 +83,20 @@ func (b *bookRepository) IsExistBook(bookID int) (bool, error) {
 }
 
 // GetListBook implements IBookRepository.
-func (b *bookRepository) GetListBook(limit int, page int, categoryID int, authorID int) ([]models.Book, error) {
+func (b *bookRepository) GetListBook(query *request.QueryLimit, categoryID int, authorID int) ([]models.Book, error) {
 	var books []models.Book
-	query := b.db
+	queryDB := b.db.Model(&models.Book{})
 
 	if categoryID != 0 {
-		query = query.Where("category_id = ?", categoryID)
+		queryDB = queryDB.Where("category_id = ?", categoryID)
 	}
 
 	if authorID != 0 {
-		query = query.Joins("JOIN book_author ON books.id = book_author.book_id").
+		queryDB = queryDB.Joins("JOIN book_author ON books.id = book_author.book_id").
 			Where("book_author.author_id = ?", authorID).
 			Distinct("books.*")
-
 	}
-	if err := query.Limit(limit).Offset((page - 1) * limit).Preload("Category").Preload("Authors").Find(&books).Error; err != nil {
+	if err := queryDB.Limit(query.Limit).Offset((query.Page - 1) * query.Limit).Preload("Category").Preload("Authors").Find(&books).Error; err != nil {
 		return nil, err
 	}
 
@@ -105,13 +104,19 @@ func (b *bookRepository) GetListBook(limit int, page int, categoryID int, author
 }
 
 // GetBookByID implements IBookRepository.
-func (b *bookRepository) GetBookByID(bookID uint) (*models.Book, error) {
-	panic("unimplemented")
+func (b *bookRepository) GetBookByID(bookID int) (*models.Book, error) {
+	var book models.Book
+	if err := b.db.Where("id = ?", bookID).Preload("Category").Preload("Authors").First(&book).Error; err != nil {
+		return nil, err
+	}
+
+	return &book, nil
+
 }
 
 // CreateBook implements IBookRepository.
 func (b *bookRepository) CreateBook(book *models.Book, tx *gorm.DB) error {
-	err := tx.Create(book).Error
+	err := tx.Create(&book).Error
 	return err
 }
 
