@@ -6,3 +6,7 @@
 @theme {
   --font-playwrite: "Playwrite IT Moderna", cursive;
 }
+
+.button {
+  @apply px-2 py-3 rounded;
+}
