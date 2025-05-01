@@ -6,6 +6,7 @@ type RouterGroup struct {
 	BookRouter
 	CartRouter
 	OrderRouter
+	CategoryRouter
 }
 
 var NewRouterGroup = new(RouterGroup)

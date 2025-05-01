@@ -42,6 +42,15 @@ func IniCartHandler(rd *redis.Client, db *gorm.DB) (*handlers.CartHandler, error
 	return cartHandler, nil
 }
 
+// Injectors from categoryHandler.go:
+
+func InitCategoryHanler(db *gorm.DB) (*handlers.CategoryHandler, error) {
+	iCategoryRepository := repositories.NewCategoryRepository(db)
+	iCategoryService := services.NewCategoryService(iCategoryRepository)
+	categoryHandler := handlers.NewCategoryHandler(iCategoryService)
+	return categoryHandler, nil
+}
+
 // Injectors from orderHandler.go:
 
 func InitOrderHandler(db *gorm.DB, rd *redis.Client) (*handlers.OrderHandler, error) {
