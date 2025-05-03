@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 
-const Lable = ({ type = "lable", lable, children, htmlFor, className }) => {
+const Lable = ({ type = "normal", lable, children, htmlFor, className }) => {
   const types = {
     floating: "floating-label",
     normal: "lable",

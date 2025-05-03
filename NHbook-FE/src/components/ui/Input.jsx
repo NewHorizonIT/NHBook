@@ -33,7 +33,7 @@ const Input = ({
       placeholder={placeholder}
       onChange={onChange}
       className={clsx(
-        "input",
+        "input w-full",
         styles[style],
         sizes[size],
         className && className

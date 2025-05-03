@@ -8,6 +8,7 @@ const Select = ({
   options = [],
   title,
   ghost = false,
+  onChange,
 }) => {
   const colors = {
     primary: "select-primary",
@@ -26,16 +27,19 @@ const Select = ({
     <select
       defaultValue={title}
       className={clsx(
-        "select",
+        "select w-full",
         !!color && colors[color],
         sizes[size],
         ghost && "select-ghost",
         !!className && className
       )}
+      onChange={onChange}
     >
       {options.length !== 0 &&
         options.map((option) => (
-          <option value={option.value}>{option.lable}</option>
+          <option value={option.id} key={option.id}>
+            {option.name}
+          </option>
         ))}
     </select>
   );
