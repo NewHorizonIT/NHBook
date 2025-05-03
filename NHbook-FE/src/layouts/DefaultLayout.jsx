@@ -5,9 +5,9 @@ import { Outlet } from "react-router-dom";
 
 const DefaultLayout = () => {
   return (
-    <div>
+    <div className="min-h-screen overflow-hidden">
       <Header />
-      <div className="py-32 min-h-[100vh]">
+      <div className="py-32">
         <Outlet />
       </div>
       <Footer />

@@ -14,7 +14,7 @@ const Sidebar = () => {
     queryFn: () => fetchCategory(),
   });
   return (
-    <div className="p-4 bg-base-200 shadow rounded-lg sm:block hidden w-[300px]">
+    <div className="p-4 bg-base-200 shadow rounded-lg sm:block hidden w-[200px] sticky top-[65px] ">
       <h3>Lọc sách</h3>
     </div>
   );

@@ -1,4 +1,4 @@
-import { ListBook } from "@/components/layout/Books";
+import { ListBook } from "@/components/common/Books";
 import { Container } from "@/components/layout/Containner";
 import { Hero } from "@/components/layout/Hero";
 import Title from "@/components/ui/Title";

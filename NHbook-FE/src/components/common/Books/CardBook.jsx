@@ -5,7 +5,6 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const CardBook = ({ book, className }) => {
-  console.log(book);
   const {
     id,
     title,

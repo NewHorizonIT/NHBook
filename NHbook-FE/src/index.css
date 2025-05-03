@@ -7,6 +7,21 @@
   --font-playwrite: "Playwrite IT Moderna", cursive;
 }
 
-.button {
-  @apply px-2 py-3 rounded;
+@layer base {
+  .inner-deep {
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  .lock {
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .button {
+    @apply px-2 py-3 rounded;
+  }
+
+  .overlay {
+    @apply bg-neutral/75 w-screen h-screen fixed top-0 left-0 bottom-0 z-50;
+  }
 }
