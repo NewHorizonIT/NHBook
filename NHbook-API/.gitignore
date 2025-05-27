@@ -1,2 +1,4 @@
 .env
 ./configs
+./build
+./storage/log
