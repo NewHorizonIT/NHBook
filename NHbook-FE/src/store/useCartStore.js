@@ -1,5 +1,15 @@
+import apiInstance from '@/api/axios';
+import _ from 'lodash';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
+const updateCartOnServer = _.debounce(async (cart) => {
+  try {
+    await apiInstance.post('/cart/update', cart);
+  } catch (err) {
+    console.error('Update cart failed:', err);
+  }
+}, 1000); // debounce sau 1 giây
 
 const useCartStore = create(
   persist(
@@ -8,23 +18,23 @@ const useCartStore = create(
       addItem: (item) => {
         const newItems = [...get().items, item];
         set({ items: newItems });
-        // Using debounce func
+        updateCartOnServer(newItems);
       },
       clearCart: () => {
         set({ items: [] });
-        // Using debounce func
+        updateCartOnServer([]);
       },
       removeItem: (id) => {
         const newItems = get().items.filter((item) => item.id !== id);
         set({ items: newItems });
-        // Using debounce func
+        updateCartOnServer(newItems);
       },
       updateItem: (id, quantity) => {
         const newItem = get().items.map((item) =>
           item.id === id ? { ...item, quantity } : item
         );
         set({ items: newItem });
-        // Using debounce func
+        updateCartOnServer(newItem);
       },
     }),
     {
