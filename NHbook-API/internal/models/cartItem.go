@@ -1,7 +1,7 @@
 package models
 
 type CartItem struct {
-	ID        uint   `json:"productID"`
+	ID        uint   `json:"id"`
 	Thumbnail string `json:"thumbnail"`
 	Title     string `json:"title"`
 	Price     int    `json:"price"`

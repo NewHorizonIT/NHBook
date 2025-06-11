@@ -1,4 +1,6 @@
 .env
-./configs
-./build
-./storage/log
+/configs/
+/build/
+/storage/log/
+.vscode
+.air.toml
