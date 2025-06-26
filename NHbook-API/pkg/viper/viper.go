@@ -8,14 +8,12 @@ import (
 	"github.com/spf13/viper"
 )
 
-
-func InitViper (path ...string){
+func InitViper(path ...string) {
 	appConfig := config.Config{}
 	v := viper.New()
 	v.AddConfigPath(path[0])
 	v.SetConfigType("yml")
 	v.SetConfigName("local.config")
-
 
 	if err := v.ReadInConfig(); err != nil {
 		panic(fmt.Sprintf("Read Config Error %v", err))
@@ -27,4 +25,4 @@ func InitViper (path ...string){
 
 	global.Viper = v
 	global.Config = appConfig
-} 
+}

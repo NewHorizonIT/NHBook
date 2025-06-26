@@ -1,0 +1,687 @@
+basePath: /api/v1
+definitions:
+  models.CartItem:
+    properties:
+      id:
+        type: integer
+      price:
+        type: integer
+      quantity:
+        type: integer
+      thumbnail:
+        type: string
+      title:
+        type: string
+      total:
+        type: integer
+    type: object
+  request.CategoryRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  request.CategoryUpdate:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  request.HandleRefreshTokenRequest:
+    properties:
+      refreshToken:
+        type: string
+    type: object
+  request.OrderRequest:
+    properties:
+      payment_method:
+        enum:
+        - cod
+        - momo
+        - bank
+        type: string
+      user_id:
+        type: string
+    required:
+    - payment_method
+    type: object
+  request.RegisterRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      userName:
+        type: string
+    type: object
+  response.AuthorData:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  response.BookData:
+    properties:
+      authors:
+        items:
+          $ref: '#/definitions/response.AuthorData'
+        type: array
+      category:
+        $ref: '#/definitions/response.CategoryData'
+      description:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      publishedAt:
+        type: string
+      stock:
+        type: integer
+      thumbnail:
+        type: string
+      title:
+        type: string
+    type: object
+  response.CategoryData:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  response.CategoryResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  response.HandleRefreshTokenResponse:
+    properties:
+      accessToken:
+        type: string
+      code:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  response.OrderItemResponse:
+    properties:
+      book_id:
+        type: integer
+      book_name:
+        type: string
+      price:
+        type: integer
+      quantity:
+        type: integer
+      total:
+        type: integer
+    type: object
+  response.OrderResponse:
+    properties:
+      created_at:
+        type: string
+      order_items:
+        items:
+          $ref: '#/definitions/response.OrderItemResponse'
+        type: array
+      payment_method:
+        type: string
+      status:
+        type: string
+      total_amount:
+        type: integer
+      user_id:
+        type: string
+    type: object
+  response.RegisterResponse:
+    properties:
+      accessToken:
+        type: string
+      code:
+        type: string
+      refreshToken:
+        type: string
+      user:
+        properties:
+          email:
+            type: string
+          userID:
+            type: string
+        type: object
+    type: object
+  utils.ResponseError:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  utils.ResponseSuccess:
+    properties:
+      message:
+        type: string
+      metadata: {}
+      options: {}
+      status:
+        type: integer
+    type: object
+host: localhost:3030
+info:
+  contact: {}
+  description: This is the API for NHBook, a book management system.
+  title: NHBook API
+  version: "1.0"
+paths:
+  /auth/refresh-token:
+    post:
+      consumes:
+      - application/json
+      description: Handle refresh token to get new access token
+      parameters:
+      - description: Refresh token details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.HandleRefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.HandleRefreshTokenResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      - ApiKeyAuth: []
+      summary: Handle refresh token
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with username, email, password, and role
+      parameters:
+      - description: User registration details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/request.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.RegisterResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Register a new user
+      tags:
+      - auth
+  /books:
+    get:
+      consumes:
+      - application/json
+      description: get all books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get list of books
+      tags:
+      - books
+  /books/{bookID}:
+    get:
+      consumes:
+      - application/json
+      description: get book detail by ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: bookID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.BookData'
+      security:
+      - ApiKeyAuth: []
+      summary: Get book detail
+      tags:
+      - books
+  /cart:
+    delete:
+      consumes:
+      - application/json
+      description: Remove all items from cart by userID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              allOf:
+              - $ref: '#/definitions/utils.ResponseSuccess'
+              - properties:
+                  data:
+                    $ref: '#/definitions/models.CartItem'
+                type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Remove all items from cart
+      tags:
+      - cart
+    get:
+      consumes:
+      - application/json
+      description: Get user's cart by userID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              allOf:
+              - $ref: '#/definitions/utils.ResponseSuccess'
+              - properties:
+                  data:
+                    $ref: '#/definitions/models.CartItem'
+                type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get user's cart
+      tags:
+      - cart
+    post:
+      consumes:
+      - application/json
+      description: Add item to cart by userID
+      parameters:
+      - description: Cart item details
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/models.CartItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              allOf:
+              - $ref: '#/definitions/utils.ResponseSuccess'
+              - properties:
+                  data:
+                    $ref: '#/definitions/models.CartItem'
+                type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Add item to cart
+      tags:
+      - cart
+  /cart/{bookID}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove item from cart by userID and bookID
+      parameters:
+      - description: Book ID
+        in: path
+        name: bookID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              allOf:
+              - $ref: '#/definitions/utils.ResponseSuccess'
+              - properties:
+                  data:
+                    $ref: '#/definitions/models.CartItem'
+                type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Remove item from cart
+      tags:
+      - cart
+  /categories:
+    get:
+      consumes:
+      - application/json
+      description: Get list category by status
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseSuccess'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.CategoryResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get list category
+      tags:
+      - category
+    post:
+      consumes:
+      - application/json
+      description: Create a new category with name and status
+      parameters:
+      - description: Category details
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/request.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.CategoryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new category
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: Update a category with name and status
+      parameters:
+      - description: Category update details
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/request.CategoryUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.CategoryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update a category
+      tags:
+      - category
+  /categories/{categoryID}:
+    get:
+      consumes:
+      - application/json
+      description: Get category detail by categoryID
+      parameters:
+      - description: Category ID
+        in: path
+        name: categoryID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.CategoryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get category detail
+      tags:
+      - category
+  /categories/status/{status}:
+    get:
+      consumes:
+      - application/json
+      description: Get list category by status
+      parameters:
+      - description: 'Category status (0: private, 1: public, 3: all)'
+        in: path
+        name: status
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseSuccess'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.CategoryResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get list category by status
+      tags:
+      - category
+  /orders:
+    post:
+      consumes:
+      - application/json
+      description: Create a new order with userID and order details
+      parameters:
+      - description: Order details
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/request.OrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseSuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.OrderResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseError'
+            - properties:
+                message:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new order
+      tags:
+      - order
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-Api-Key
+    type: apiKey
+swagger: "2.0"
