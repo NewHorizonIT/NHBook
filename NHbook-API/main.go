@@ -1,0 +1,2 @@
+// dummy.go
+package main

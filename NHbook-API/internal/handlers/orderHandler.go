@@ -19,6 +19,18 @@ func NewOrderHandler(os services.IOrderService) *OrderHandler {
 	}
 }
 
+// @Summary Create a new order
+// @Description Create a new order with userID and order details
+// @Tags order
+// @Accept json
+// @Produce json
+// @Param order body request.OrderRequest true "Order details"
+// @Success 200 {object} utils.ResponseSuccess{data=response.OrderResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /orders [post]
+// @Security ApiKeyAuth
+// CreateOrder creates a new order
+// This function handles the creation of a new order by binding the request body to an OrderRequest
 func (oh *OrderHandler) CreateOrder(c *gin.Context) {
 	// Bind the request body to the OrderRequest struct
 	var orderRequest request.OrderRequest

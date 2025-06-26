@@ -10,7 +10,7 @@ build:
 	@echo "Building Go binary..."
 	@go build -o $(BUILD_DIR)/$(APP_NAME) $(CMD_PATH)
 
-run:
+run:generate-docs
 	@echo "Running Go application..."
 	@go run $(CMD_PATH)
 
@@ -31,5 +31,8 @@ docker-restart:
 	@echo "Restarting Docker containers..."
 	@cd $(DOCKER_DIR) && docker compose restart
 
+generate-docs:
+	@echo "Generating API documentation..."
+	@swag init -g ./cmd/app/main.go
 # Aliases
 rundb: docker-up

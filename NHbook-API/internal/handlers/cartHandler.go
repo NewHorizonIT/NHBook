@@ -16,6 +16,16 @@ type CartHandler struct {
 	bookService services.IBookService
 }
 
+// @Summary Add item to cart
+// @Description Add item to cart by userID
+// @Tags cart
+// @Accept json
+// @Produce json
+// @Param item body models.CartItem true "Cart item details"
+// @Success 200 {array} utils.ResponseSuccess{data=models.CartItem}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /cart [post]
+// @Security ApiKeyAuth
 func NewCartHandler(cs services.ICartService, bs services.IBookService) *CartHandler {
 	return &CartHandler{
 		cartService: cs,
@@ -23,6 +33,17 @@ func NewCartHandler(cs services.ICartService, bs services.IBookService) *CartHan
 	}
 }
 
+// @Summary Add item to cart
+// @Description Add item to cart by userID
+// @Tags cart
+// @Accept json
+// @Produce json
+// @Param item body models.CartItem true "Cart item details"
+// @Success 200 {array} utils.ResponseSuccess{data=models.CartItem}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /cart [post]
+// @Security ApiKeyAuth
+// AddItemToCart adds an item to the user's cart
 func (ch *CartHandler) AddItemToCart(c *gin.Context) {
 	// Step 1: Get userID
 	userID := c.GetString("userID")
@@ -62,6 +83,17 @@ func (ch *CartHandler) AddItemToCart(c *gin.Context) {
 
 }
 
+// GetCart godoc
+// @Summary Get user's cart
+// @Description Get user's cart by userID
+// @Tags cart
+// @Accept json
+// @Produce json
+// @Success 200 {array} utils.ResponseSuccess{data=models.CartItem}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /cart [get]
+// @Security ApiKeyAuth
+// GetCart retrieves the user's cart by userID
 func (ch *CartHandler) GetCart(c *gin.Context) {
 	userID := c.GetString("userID")
 
@@ -75,6 +107,16 @@ func (ch *CartHandler) GetCart(c *gin.Context) {
 	utils.WriteResponse(c, http.StatusOK, "Get cart Success", cart, nil)
 }
 
+// @Summary Remove all items from cart
+// @Description Remove all items from cart by userID
+// @Tags cart
+// @Accept json
+// @Produce json
+// @Success 200 {array} utils.ResponseSuccess{data=models.CartItem}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /cart [delete]
+// @Security ApiKeyAuth
+// RemoveAllItemToCart removes all items from the user's cart
 func (ch *CartHandler) RemoveAllItemToCart(c *gin.Context) {
 	userID := c.GetString("userID")
 
@@ -88,6 +130,17 @@ func (ch *CartHandler) RemoveAllItemToCart(c *gin.Context) {
 	utils.WriteResponse(c, http.StatusOK, "Delete all item in cart success", cart, nil)
 }
 
+// @Summary Remove item from cart
+// @Description Remove item from cart by userID and bookID
+// @Tags cart
+// @Accept json
+// @Produce json
+// @Param bookID path int true "Book ID"
+// @Success 200 {array} utils.ResponseSuccess{data=models.CartItem}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /cart/{bookID} [delete]
+// @Security ApiKeyAuth
+// RemoveItemInCart removes an item from the user's cart by bookID
 func (ch *CartHandler) RemoveItemInCart(c *gin.Context) {
 	// Step 1: Get userID and bookID
 	userID := c.GetString("userID")

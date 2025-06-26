@@ -69,6 +69,15 @@ func (bh *BookHandler) CreateBook(c *gin.Context) {
 
 }
 
+// GetBooks godoc
+// @Summary Get list of books
+// @Description get all books
+// @Tags books
+// @Accept  json
+// @Security ApiKeyAuth
+// @Produce  json
+// @Success 200 {array} string
+// @Router /books [get]
 func (bh *BookHandler) GetListBook(c *gin.Context) {
 	page := c.DefaultQuery("page", "1")
 	limit := c.DefaultQuery("limit", "10")
@@ -124,6 +133,17 @@ func (bh *BookHandler) GetListBook(c *gin.Context) {
 	utils.WriteResponse(c, http.StatusOK, "Get All Book Success", res, nil)
 }
 
+// GetBookDetail godoc
+// @Summary Get book detail
+// @Description get book detail by ID
+// @Tags books
+// @Accept  json
+// @Security ApiKeyAuth
+// @Produce  json
+// @Param bookID path int true "Book ID"
+// @Success 200 {object} response.BookData
+// @Router /books/{bookID} [get]
+// GetBookDetail retrieves the details of a book by its ID.
 func (bh *BookHandler) GetBookDetail(c *gin.Context) {
 	bookID, _ := strconv.Atoi(c.Param("bookID"))
 	book, err := bh.bookService.GetBookByID(bookID)

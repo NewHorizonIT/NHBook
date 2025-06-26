@@ -31,6 +31,17 @@ type CategoryHandler struct {
 	categoryService services.ICategoryService
 }
 
+// @Summary Create a new category
+// @Description Create a new category with name and status
+// @Tags category
+// @Accept json
+// @Produce json
+// @Param category body request.CategoryRequest true "Category details"
+// @Success 201 {object} utils.ResponseSuccess{data=response.CategoryResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /categories [post]
+// @Security ApiKeyAuth
+// CreateCategory creates a new category
 func (ch *CategoryHandler) CreateCategory(c *gin.Context) {
 	// Step 1: Binding data
 	var req request.CategoryRequest
@@ -54,6 +65,17 @@ func (ch *CategoryHandler) CreateCategory(c *gin.Context) {
 
 }
 
+// @Summary Get category detail
+// @Description Get category detail by categoryID
+// @Tags category
+// @Accept json
+// @Produce json
+// @Param categoryID path int true "Category ID"
+// @Success 200 {object} utils.ResponseSuccess{data=response.CategoryResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /categories/{categoryID} [get]
+// @Security ApiKeyAuth
+// GetcategoryDetail retrieves the details of a category by its ID
 func (ch *CategoryHandler) GetcategoryDetail(c *gin.Context) {
 	// Step1: Get param CategoryID
 	id, err := strconv.Atoi(c.Param("categoryID"))
@@ -77,6 +99,16 @@ func (ch *CategoryHandler) GetcategoryDetail(c *gin.Context) {
 	utils.WriteResponse(c, http.StatusOK, "Get Category success", res, nil)
 }
 
+// @Summary Get list category
+// @Description Get list category by status
+// @Tags category
+// @Accept json
+// @Produce json
+// @Success 200 {object} utils.ResponseSuccess{data=[]response.CategoryResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /categories [get]
+// @Security ApiKeyAuth
+// GetListCategory retrieves all categories
 func (ch *CategoryHandler) GetListCategory(c *gin.Context) {
 	// Step 1: Call service getAllCategory
 	categories, err := ch.categoryService.GetAllCategory(categoryAll)
@@ -93,6 +125,17 @@ func (ch *CategoryHandler) GetListCategory(c *gin.Context) {
 	utils.WriteResponse(c, http.StatusOK, "Get list category Success", res, nil)
 }
 
+// @Summary Get list category by status
+// @Description Get list category by status
+// @Tags category
+// @Accept json
+// @Produce json
+// @Param status path int true "Category status (0: private, 1: public, 3: all)"
+// @Success 200 {object} utils.ResponseSuccess{data=[]response.CategoryResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /categories/status/{status} [get]
+// @Security ApiKeyAuth
+// GetListCategoryByStatus retrieves categories by their status
 func (ch *CategoryHandler) GetListCategoryByStatus(c *gin.Context) {
 	// Step 1: Call service getAllCategory
 	status, err := strconv.Atoi(c.Param("status"))
@@ -114,6 +157,17 @@ func (ch *CategoryHandler) GetListCategoryByStatus(c *gin.Context) {
 	utils.WriteResponse(c, http.StatusOK, "Get list category Success", res, nil)
 }
 
+// @Summary Update a category
+// @Description Update a category with name and status
+// @Tags category
+// @Accept json
+// @Produce json
+// @Param category body request.CategoryUpdate true "Category update details"
+// @Success 200 {object} utils.ResponseSuccess{data=response.CategoryResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /categories [put]
+// @Security ApiKeyAuth
+// UpdateCategory updates an existing category
 func (ch *CategoryHandler) UpdateCategory(c *gin.Context) {
 	var req request.CategoryUpdate
 

@@ -28,6 +28,16 @@ func NewAuthHandler(as services.IAuthService) *AuthHandler {
 	}
 }
 
+// @Summary Register a new user
+// @Description Register a new user with username, email, password, and role
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param user body request.RegisterRequest true "User registration details"
+// @Success 201 {object} utils.ResponseSuccess{data=response.RegisterResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /auth/register [post]
+// @Security ApiKeyAuth
 func (ah *AuthHandler) Register(c *gin.Context) {
 
 	var user request.RegisterRequest
@@ -46,6 +56,18 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 
 	utils.WriteResponse(c, http.StatusCreated, "Create user success", res, nil)
 }
+
+// @Summary User login
+// @Description User login with username and password
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param user body request.LoginRequest true "User login details"
+// @Success 200 {object} utils.ResponseSuccess{data=response.LoginResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /auth/login [post]
+// @Security ApiKeyAuth
+
 func (ah *AuthHandler) Login(c *gin.Context) {
 	var user request.LoginRequest
 
@@ -66,6 +88,20 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 func (ah *AuthHandler) Logout(c *gin.Context) {
 
 }
+
+// @Summary Handle refresh token
+// @Description Handle refresh token to get new access token
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param body body request.HandleRefreshTokenRequest true "Refresh token details"
+// @Success 201 {object} utils.ResponseSuccess{data=response.HandleRefreshTokenResponse}
+// @Failure 400 {object} utils.ResponseError{message=string}
+// @Router /auth/refresh-token [post]
+// @Security ApiKeyAuth
+// @Security ApiKeyAuth
+// HandleRefreshToken handles the refresh token request to generate a new access token
+// It expects a JSON body with the refresh token and returns a new access token if successful.
 func (ah *AuthHandler) HandleRefreshToken(c *gin.Context) {
 	var body = request.HandleRefreshTokenRequest{}
 	if err := c.ShouldBindJSON(&body); err != nil {
