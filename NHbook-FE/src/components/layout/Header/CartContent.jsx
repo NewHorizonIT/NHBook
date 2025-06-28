@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 
 const CartContent = ({ onClose }) => {
   const { items, removeItem, updateItem } = useCartStore();
+  console.log('ITEMS', items);
   const [quantities, setQuantities] = useState(() =>
     Object.fromEntries(items.map((item) => [item.id, item.quantity]))
   );
