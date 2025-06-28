@@ -100,7 +100,7 @@ func (ch *CartHandler) GetCart(c *gin.Context) {
 	cart, err := ch.cartService.GetCartByID(userID)
 
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, "Get car unsuccess")
+		utils.WriteError(c, http.StatusBadRequest, "Get cart unsuccess")
 		return
 	}
 
