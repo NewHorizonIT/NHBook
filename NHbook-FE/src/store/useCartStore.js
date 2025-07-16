@@ -59,11 +59,11 @@ const useCartStore = create(
               }`,
             },
           });
-          console.log(res);
-          if (res.status === 400) {
-            set({ items: [] });
+          console.log('RES:: ', res);
+          if (res.status === 200) {
+            set({ items: res.metadata });
           } else {
-            set({ items: res });
+            set({ items: [] });
           }
         } catch (error) {
           console.log(error);

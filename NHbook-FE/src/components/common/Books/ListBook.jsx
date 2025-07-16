@@ -13,7 +13,7 @@ const ListBook = () => {
           limit: 6,
         },
       });
-      return res;
+      return res.metadata;
     },
   });
 
