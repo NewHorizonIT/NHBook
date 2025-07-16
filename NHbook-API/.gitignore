@@ -1,5 +1,5 @@
 .env
-/configs/
+/configs
 /build/
 /storage/log/
 .vscode
