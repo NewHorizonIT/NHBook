@@ -76,3 +76,9 @@
 {"level":"INFO","time":"2025-06-28T15:11:26.006+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
 {"level":"INFO","time":"2025-06-28T15:11:26.033+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
 {"level":"INFO","time":"2025-06-28T15:11:26.748+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-07-16T14:25:23.017+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-07-16T14:25:23.046+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-07-16T14:25:24.313+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
+{"level":"INFO","time":"2025-07-16T14:36:57.243+0700","caller":"initializer/mysql.go:27","msg":"Connect MySQL Success","msg":"Success"}
+{"level":"INFO","time":"2025-07-16T14:36:57.273+0700","caller":"initializer/redis.go:21","msg":"Connect Redis Success"}
+{"level":"INFO","time":"2025-07-16T14:36:58.734+0700","caller":"migrations/migrate.go:28","msg":"Migrate success"}
