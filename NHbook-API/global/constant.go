@@ -3,7 +3,7 @@ package global
 // Defined Header key
 const (
 	HEADER_API_KEY       = "X-Api-Key"
-	HEADER_AUTHORIZATION = "X-Auth-Token"
+	HEADER_AUTHORIZATION = "Authorization"
 )
 
 // Defined variable status order

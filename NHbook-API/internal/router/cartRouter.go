@@ -12,7 +12,7 @@ type CartRouter struct {
 
 func (cr *CartRouter) SetUpRouter(r *gin.RouterGroup) {
 	cartHandler, _ := wire.IniCartHandler(global.Redis, global.MySQL)
-	cartRouter := r.Group("/carts/")
+	cartRouter := r.Group("/carts")
 	{
 		cartRouter.Use(middlewares.AuthMiddlerware())
 		// Add item to cart
