@@ -53,6 +53,7 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 		utils.WriteError(c, http.StatusBadRequest, err.Error())
 		return
 	}
+	c.SetCookie("refresh-token", res.RefreshToken, 604800, "/", "localhost", false, true)
 
 	utils.WriteResponse(c, http.StatusCreated, "Create user success", res, nil)
 }
@@ -72,16 +73,17 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 	var user request.LoginRequest
 
 	if err := c.ShouldBindJSON(&user); err != nil {
-		utils.WriteError(c, http.StatusBadRequest, REQUEST_BODY_INVALID)
+		utils.WriteError(c, http.StatusUnauthorized, REQUEST_BODY_INVALID)
 		return
 	}
 
 	res, err := ah.AuthService.Login(&user)
 
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, LOGIN_UNSUCCESS)
+		utils.WriteError(c, http.StatusUnauthorized, LOGIN_UNSUCCESS)
 		return
 	}
+	c.SetCookie("refresh-token", res.RefreshToken, 604800, "/", "localhost", false, true)
 	utils.WriteResponse(c, http.StatusOK, LOGIN_SUCCESS, res, nil)
 
 }
@@ -103,18 +105,17 @@ func (ah *AuthHandler) Logout(c *gin.Context) {
 // HandleRefreshToken handles the refresh token request to generate a new access token
 // It expects a JSON body with the refresh token and returns a new access token if successful.
 func (ah *AuthHandler) HandleRefreshToken(c *gin.Context) {
-	var body = request.HandleRefreshTokenRequest{}
-	if err := c.ShouldBindJSON(&body); err != nil {
-		utils.WriteError(c, http.StatusBadRequest, REQUEST_BODY_INVALID)
-		return
+	refreshToken, err := c.Cookie("refresh-token")
+	if err != nil {
+		utils.WriteError(c, http.StatusUnauthorized, REQUEST_BODY_INVALID)
 	}
-
-	res, err := ah.AuthService.HandleRefreshToken(&body)
+	res, err := ah.AuthService.HandleRefreshToken(refreshToken)
 
 	if err != nil {
-		utils.WriteError(c, http.StatusBadRequest, err.Error())
+		utils.WriteError(c, http.StatusUnauthorized, err.Error())
 		return
 	}
+	c.SetCookie("refresh-token", res.RefreshToken, 604800, "/", "localhost", false, true)
 
 	utils.WriteResponse(c, http.StatusCreated, HANDLE_REFRESH_TOKEN_SUCCESS, res, nil)
 

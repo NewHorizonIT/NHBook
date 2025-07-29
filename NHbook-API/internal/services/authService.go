@@ -35,7 +35,7 @@ type IAuthService interface {
 	Register(username string, email string, password string, roleName string) (*response.RegisterResponse, error)
 	Login(*request.LoginRequest) (*response.LoginResponse, error)
 	Logout() (map[string]any, error)
-	HandleRefreshToken(*request.HandleRefreshTokenRequest) (*response.HandleRefreshTokenResponse, error)
+	HandleRefreshToken(string) (*response.HandleRefreshTokenResponse, error)
 }
 
 type authService struct {
@@ -51,9 +51,9 @@ func NewAuthService(ur repositories.IUserRepository, tr repositories.ITokenRepos
 }
 
 // HandleRefreshToken implements IAuthService.
-func (a *authService) HandleRefreshToken(req *request.HandleRefreshTokenRequest) (*response.HandleRefreshTokenResponse, error) {
+func (a *authService) HandleRefreshToken(refreshToken string) (*response.HandleRefreshTokenResponse, error) {
 	// Step 1: Verify token
-	claim, err := utils.VerifyToken(req.RefreshToken)
+	claim, err := utils.VerifyToken(refreshToken)
 
 	if err != nil {
 		return nil, utils.FormatError(ErrVerifyToken, err)
@@ -66,9 +66,9 @@ func (a *authService) HandleRefreshToken(req *request.HandleRefreshTokenRequest)
 		return nil, utils.FormatError(ErrGetToken, err)
 	}
 	fmt.Printf("TOKENS: %v \n", tokenStore.Token)
-	fmt.Printf("TOKENS BODY: %v \n", req.RefreshToken)
+	fmt.Printf("TOKENS BODY: %v \n", refreshToken)
 
-	if tokenStore.Token != req.RefreshToken {
+	if tokenStore.Token != refreshToken {
 		return nil, utils.FormatError(ErrTokenInvalid, ErrTokenInvalid)
 	}
 

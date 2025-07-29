@@ -15,7 +15,7 @@ func AuthMiddlerware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString := c.GetHeader(global.HEADER_AUTHORIZATION)
 		if tokenString == "" {
-			utils.WriteError(c, http.StatusForbidden, "Missing token in header")
+			utils.WriteError(c, http.StatusUnauthorized, "Missing token in header")
 			c.Abort()
 			return
 		}
@@ -31,7 +31,7 @@ func AuthMiddlerware() gin.HandlerFunc {
 		verify, err := utils.VerifyToken(token)
 
 		if err != nil {
-			utils.WriteError(c, http.StatusForbidden, "Verify token error")
+			utils.WriteError(c, http.StatusUnauthorized, "Verify token error")
 			c.Abort()
 			return
 		}
