@@ -25,5 +25,7 @@ func (ar *AuthRouter) SetupRouter(r *gin.RouterGroup) {
 		authRouter.POST("/logout", authHandler.Logout)
 		// Handle RefreshToken
 		authRouter.POST("/refresh-token", authHandler.HandleRefreshToken)
+		// Get info user
+		authRouter.GET("me", authHandler.GetInfoUser)
 	}
 }

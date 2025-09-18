@@ -46,7 +46,7 @@ func (ah *AuthHandler) Register(c *gin.Context) {
 		return
 	}
 
-	res, err := ah.AuthService.Register(user.UserName, user.Email, user.Password, user.Role)
+	res, err := ah.AuthService.Register(user.UserName, user.Email, user.Password, "user")
 	if err != nil {
 		utils.WriteError(c, http.StatusBadRequest, err.Error())
 		return
@@ -112,4 +112,8 @@ func (ah *AuthHandler) HandleRefreshToken(c *gin.Context) {
 	}
 	c.SetCookie("refresh-token", res.RefreshToken, 604800, "/", "localhost", false, true)
 	utils.WriteResponse(c, http.StatusCreated, HANDLE_REFRESH_TOKEN_SUCCESS, res, nil)
+}
+
+func (ah *AuthHandler) GetInfoUser(c *gin.Context) {
+
 }
