@@ -49,3 +49,21 @@ func (oh *OrderHandler) CreateOrder(c *gin.Context) {
 	utils.WriteResponse(c, http.StatusOK, "Create Order success", orderResponse, nil)
 
 }
+
+func (oh *OrderHandler) ConfirmOrder(c *gin.Context) {
+	id := c.Param("id")
+
+	if id == "" {
+		utils.WriteError(c, http.StatusNotFound, "Not Found Order")
+		return
+	}
+
+	res, err := oh.orderService.ConfirmOrder(id)
+
+	if err != nil {
+		utils.WriteError(c, http.StatusNotFound, "Confirm order unsuccess")
+		return
+	}
+
+	utils.WriteResponse(c, http.StatusOK, "Confirm Order success", res, nil)
+}

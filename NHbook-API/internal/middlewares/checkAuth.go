@@ -19,7 +19,6 @@ func AuthMiddlerware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
 		if !strings.HasPrefix(tokenString, PerfixToken) {
 			utils.WriteError(c, http.StatusUnauthorized, "Invalid token format")
 			c.Abort()

@@ -15,5 +15,7 @@ func (or *OrderRouter) SetupRouter(r *gin.RouterGroup) {
 	{
 		// Create new Order
 		orderRouter.POST("/", orderHandler.CreateOrder)
+		// Cofirm order
+		orderRouter.PATCH("/:id/confirm", orderHandler.ConfirmOrder)
 	}
 }

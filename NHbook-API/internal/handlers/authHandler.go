@@ -39,10 +39,8 @@ func NewAuthHandler(as services.IAuthService) *AuthHandler {
 // @Router /auth/register [post]
 // @Security ApiKeyAuth
 func (ah *AuthHandler) Register(c *gin.Context) {
-
 	var user request.RegisterRequest
 	err := c.ShouldBindJSON(&user)
-
 	if err != nil {
 		utils.WriteError(c, http.StatusBadRequest, REQUEST_BODY_INVALID)
 		return
@@ -78,17 +76,15 @@ func (ah *AuthHandler) Login(c *gin.Context) {
 	}
 
 	res, err := ah.AuthService.Login(&user)
-
 	if err != nil {
 		utils.WriteError(c, http.StatusUnauthorized, LOGIN_UNSUCCESS)
 		return
 	}
 	c.SetCookie("refresh-token", res.RefreshToken, 604800, "/", "localhost", false, true)
 	utils.WriteResponse(c, http.StatusOK, LOGIN_SUCCESS, res, nil)
-
 }
-func (ah *AuthHandler) Logout(c *gin.Context) {
 
+func (ah *AuthHandler) Logout(c *gin.Context) {
 }
 
 // @Summary Handle refresh token
@@ -110,13 +106,10 @@ func (ah *AuthHandler) HandleRefreshToken(c *gin.Context) {
 		utils.WriteError(c, http.StatusUnauthorized, REQUEST_BODY_INVALID)
 	}
 	res, err := ah.AuthService.HandleRefreshToken(refreshToken)
-
 	if err != nil {
 		utils.WriteError(c, http.StatusUnauthorized, err.Error())
 		return
 	}
 	c.SetCookie("refresh-token", res.RefreshToken, 604800, "/", "localhost", false, true)
-
 	utils.WriteResponse(c, http.StatusCreated, HANDLE_REFRESH_TOKEN_SUCCESS, res, nil)
-
 }

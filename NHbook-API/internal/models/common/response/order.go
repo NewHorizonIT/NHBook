@@ -16,3 +16,8 @@ type OrderResponse struct {
 	CreatedAt     string              `json:"created_at"`
 	OrderItems    []OrderItemResponse `json:"order_items"`
 }
+
+type OrderConfirmResponse struct {
+	OrderID string `json:"order_id"`
+	Status  string `json:"status"`
+}

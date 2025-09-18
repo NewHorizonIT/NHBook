@@ -11,11 +11,18 @@ type IOrderRepository interface {
 	CreateOrderItem(tx *gorm.DB, orderItem *models.OrderItem) error
 	GetOrderByID(id string) (*models.Order, error)
 	GetOrderItemByID(id string) (*models.OrderItem, error)
+	UpdateStatusOrderByID(id string, status string) error
 }
 
 type orderRepository struct {
 	db          *gorm.DB
 	redisClient *redis.Client
+}
+
+// UpdateStatusOrderByID implements IOrderRepository.
+func (o *orderRepository) UpdateStatusOrderByID(id string, status string) error {
+	err := o.db.Where("id = ?", id).Update("status = ?", status).Error
+	return err
 }
 
 // CreateOrderItem implements IOrderRepository.

@@ -17,6 +17,7 @@ var (
 
 type IOrderService interface {
 	CreateOrder(order *request.OrderRequest) (*response.OrderResponse, error)
+	ConfirmOrder(id string) (*response.OrderConfirmResponse, error)
 }
 
 type orderService struct {
@@ -24,6 +25,22 @@ type orderService struct {
 	userRepo  repositories.IUserRepository
 	bookRepo  repositories.IBookRepository
 	cartRepo  repositories.ICartRepository
+}
+
+// ConfirmOrder implements IOrderService.
+func (o *orderService) ConfirmOrder(id string) (*response.OrderConfirmResponse, error) {
+	err := o.orderRepo.UpdateStatusOrderByID(id, "Confirmed")
+
+	if err != nil {
+		return nil, err
+	}
+
+	res := &response.OrderConfirmResponse{
+		OrderID: id,
+		Status:  "Confirmed",
+	}
+
+	return res, nil
 }
 
 // CreateOrder implements IOrderService.
