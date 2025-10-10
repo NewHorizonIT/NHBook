@@ -1,21 +1,24 @@
 //go:build wireinject
 
-package wire
+package di
 
 import (
+	"database/sql"
+
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/handlers"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/repositories"
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/services"
 	"github.com/google/wire"
-	"gorm.io/gorm"
+	"github.com/redis/go-redis/v9"
 )
 
-func InitAuthHandler(db *gorm.DB) (*handlers.AuthHandler, error) {
+func InitAuthHandler(db *sql.DB, client *redis.Client) (*handlers.AuthHandler, error) {
 	wire.Build(
 		repositories.NewUserRepository,
-		repositories.NewTokenRepository,
 		services.NewAuthService,
 		handlers.NewAuthHandler,
+		services.NewCacheService,
 	)
-	return &handlers.AuthHandler{}, nil
+
+	return nil, nil
 }

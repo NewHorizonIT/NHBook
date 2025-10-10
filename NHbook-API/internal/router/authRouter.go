@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/global"
-	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/wire"
+	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/di"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,11 +10,13 @@ type AuthRouter struct {
 }
 
 func (ar *AuthRouter) SetupRouter(r *gin.RouterGroup) {
-	authHandler, err := wire.InitAuthHandler(global.MySQL)
+	authHandler, err := di.InitAuthHandler(global.MySQL, global.Redis)
+
 	if err != nil {
 		global.Logger.Error(err.Error())
 		panic("Init AuthHandler Error")
 	}
+
 	authRouter := r.Group("/auth")
 	{
 		// Register

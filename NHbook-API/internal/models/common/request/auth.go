@@ -1,12 +1,13 @@
 package request
 
-type RegisterRequest struct {
-	UserName string `json:"userName"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+type Register struct {
+	UserName    string `json:"username"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	PhoneNumber string `json:"phone_number"`
 }
 
-type LoginRequest struct {
+type Login struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }

@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/global"
-	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/utils"
+	"github.com/NguyenAnhQuan-Dev/NKbook-API/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
 

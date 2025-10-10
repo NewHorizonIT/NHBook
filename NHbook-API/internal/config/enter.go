@@ -7,4 +7,5 @@ type Config struct {
 	Logger     `mapstructure:"logger"`
 	Redis      `mapstructure:"redis"`
 	Cloudinary `mapstructure:"cloudinary"`
+	ApiKey     string `mapstructure:"apiKey"`
 }

@@ -1,117 +1,113 @@
 package repositories
 
 import (
-	"errors"
-	"log"
+	"context"
+	"database/sql"
 
-	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/models"
-	"gorm.io/gorm"
+	"github.com/NguyenAnhQuan-Dev/NKbook-API/internal/db"
 )
 
 type IUserRepository interface {
-	CreateUser(userName string, email string, password string, roleName string) (models.User, error)
-	UpdateUser(id string, payload map[string]any) (models.User, error)
-	GetAllUser() ([]models.User, error)
-	GetUserByID(id string) (models.User, error)
-	GetUserByEmail(email string) (*models.User, error)
-	IsEmailExist(email string) (bool, error)
+	CreateUser(ctx context.Context, arg db.CreateUserParams) (db.User, error)
+	UpdateUser(ctx context.Context, id string, payload map[string]any) (db.User, error)
+	GetAllUser(ctx context.Context) ([]db.User, error)
+	GetUserByID(ctx context.Context, id string) (db.User, error)
+	GetUserByEmail(ctx context.Context, email string) (db.User, error)
+	DeleteUser(ctx context.Context, id int64) error
 }
 
 type userRepository struct {
-	db *gorm.DB
+	q *db.Queries
 }
 
-func NewUserRepository(db *gorm.DB) IUserRepository {
+func NewUserRepository(dbCon *sql.DB) IUserRepository {
 	return &userRepository{
-		db: db,
+		q: db.New(dbCon),
 	}
 }
 
 // CreateUser implements IUserRepository.
-func (u *userRepository) CreateUser(userName string, email string, password string, roleName string) (models.User, error) {
-	tx := u.db.Begin()
+func (u *userRepository) CreateUser(ctx context.Context, arg db.CreateUserParams) (db.User, error) {
 
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-			log.Println("Recovered in CreateUserWithRole:", r)
-		}
-	}()
-	newUser := models.User{
-		UserName: userName,
-		Email:    email,
-		Password: password,
-	}
-	err := tx.Create(&newUser).Error
+	// Step 1: Create user
+	_, err := u.q.CreateUser(ctx, arg)
 	if err != nil {
-		tx.Rollback()
-		return models.User{}, err
+		return db.User{}, err
+	}
+	// Step 2: Get user by ID
+	res, err := u.q.GetUserByID(ctx, arg.ID)
+	if err != nil {
+		return db.User{}, err
 	}
 
-	var role models.Role
-	if err := tx.Where("role_name = ?", roleName).First(&role).Error; err != nil {
-		tx.Rollback()
-		return models.User{}, err
+	// Step 3: convert to db.User and return
+	user := db.User{
+		ID:           res.ID,
+		Username:     res.Username,
+		Email:        res.Email,
+		PasswordHash: res.PasswordHash,
+		Phone:        res.Phone,
+		CreatedAt:    res.CreatedAt,
+		UpdatedAt:    res.UpdatedAt,
 	}
-
-	if err := tx.Model(&newUser).Association("Roles").Append(&role); err != nil {
-		tx.Rollback()
-		return models.User{}, err
-	}
-
-	tx.Commit()
-
-	return newUser, err
-}
-
-// GetAllUser implements IUserRepository.
-func (u *userRepository) GetAllUser() ([]models.User, error) {
-	var users []models.User
-	err := u.db.Find(&users).Error
-	return users, err
-}
-
-// GetUserByID implements IUserRepository.
-func (u *userRepository) GetUserByID(id string) (models.User, error) {
-	var user models.User
-	err := u.db.Where("user_id = ?", id).First(&user).Error
 	return user, err
 }
 
+// GetAllUser implements IUserRepository.
+func (u *userRepository) GetAllUser(ctx context.Context) ([]db.User, error) {
+	panic("unimplemented")
+}
+
+// GetUserByEmail implements IUserRepository.
+func (u *userRepository) GetUserByEmail(ctx context.Context, email string) (db.User, error) {
+	// Step 1: Get User by email
+	user, err := u.q.GetUserByEmail(ctx, email)
+
+	if err != nil {
+		return db.User{}, nil
+	}
+
+	// Step 2: Convert to db.user
+	convetUser := db.User{
+		ID:           user.ID,
+		Username:     user.Username,
+		DisplayName:  user.DisplayName,
+		Email:        user.Email,
+		PasswordHash: user.PasswordHash,
+		Phone:        user.Phone,
+		CreatedAt:    user.CreatedAt,
+	}
+
+	return convetUser, nil
+}
+
+// GetUserByID implements IUserRepository.
+func (u *userRepository) GetUserByID(ctx context.Context, id string) (db.User, error) {
+	// Step 1: Call method getUserByID
+	user, err := u.q.GetUserByID(ctx, id)
+	if err != nil {
+		return db.User{}, err
+	}
+
+	// Step 2: Convert to db.User
+	convertUser := db.User{
+		ID:           user.ID,
+		Username:     user.Username,
+		DisplayName:  user.DisplayName,
+		Email:        user.Email,
+		PasswordHash: user.PasswordHash,
+		Phone:        user.Phone,
+		CreatedAt:    user.CreatedAt,
+	}
+
+	return convertUser, nil
+}
+
 // UpdateUser implements IUserRepository.
-func (u *userRepository) UpdateUser(id string, payload map[string]any) (models.User, error) {
-	var userUpdated models.User
-	err := u.db.Model(&models.User{}).Updates(payload).Error
-	if err != nil {
-		return userUpdated, err
-	}
-
-	errFind := u.db.Where("user_id = ?", id).Find(&userUpdated).Error
-
-	return userUpdated, errFind
+func (u *userRepository) UpdateUser(ctx context.Context, id string, payload map[string]any) (db.User, error) {
+	panic("unimplemented")
 }
 
-// GetuserByEmail implements IUserRepository.
-func (u *userRepository) GetUserByEmail(email string) (*models.User, error) {
-	var user models.User
-
-	err := u.db.Where("email = ?", email).First(&user).Error
-
-	return &user, err
-}
-
-// IsEmailExist implements IUserRepository.
-func (u *userRepository) IsEmailExist(email string) (bool, error) {
-	var user models.User
-	err := u.db.Where("email = ?", email).First(&user).Error
-
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return false, nil
-	}
-
-	if err != nil {
-		return false, err
-	}
-
-	return true, nil
+func (u *userRepository) DeleteUser(ctx context.Context, id int64) error {
+	panic("unimplemented")
 }

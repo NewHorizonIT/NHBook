@@ -45,20 +45,10 @@ func InitRouter() *gin.Engine {
 	r.Use(middlewares.CheckApiKey())
 	// Setup Group Router
 	newGroupRouter := router.NewRouterGroup
-	userRouter := newGroupRouter.UserRouter
 	authRouter := newGroupRouter.AuthRouter
-	bookRouter := newGroupRouter.BookRouter
-	cartRouter := newGroupRouter.CartRouter
-	orderRouter := newGroupRouter.OrderRouter
-	categoryRouter := newGroupRouter.CategoryRouter
 	api := r.Group("/api/v1")
 	{
-		userRouter.SetupRouter(api)
 		authRouter.SetupRouter(api)
-		bookRouter.SetUpBookRouter(api)
-		cartRouter.SetUpRouter(api)
-		orderRouter.SetupRouter(api)
-		categoryRouter.SetUpRouter(api)
 	}
 
 	return r
