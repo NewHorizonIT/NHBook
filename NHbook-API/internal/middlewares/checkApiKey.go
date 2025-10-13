@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/NguyenAnhQuan-Dev/NKbook-API/global"
@@ -13,7 +12,6 @@ func CheckApiKey() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Step 1: Get api key
 		apiKeyOfClient := c.GetHeader(global.HEADER_API_KEY)
-		fmt.Printf("APIKEY :: %v\n", apiKeyOfClient)
 
 		if apiKeyOfClient == "" {
 			utils.WriteError(c, http.StatusUnauthorized, "Missing API KEY")

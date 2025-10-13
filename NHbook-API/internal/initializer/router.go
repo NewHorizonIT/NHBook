@@ -44,8 +44,7 @@ func InitRouter() *gin.Engine {
 
 	r.Use(middlewares.CheckApiKey())
 	// Setup Group Router
-	newGroupRouter := router.NewRouterGroup
-	authRouter := newGroupRouter.AuthRouter
+	authRouter := new(router.AuthRouter)
 	api := r.Group("/api/v1")
 	{
 		authRouter.SetupRouter(api)

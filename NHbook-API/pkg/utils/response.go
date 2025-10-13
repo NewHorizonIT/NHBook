@@ -7,7 +7,7 @@ import (
 type ResponseSuccess struct {
 	StatusCode int    `json:"status"`
 	Message    string `json:"message"`
-	Metadata   any    `json:"metadata"`
+	Data       any    `json:"data"`
 	Options    any    `json:"options"`
 }
 
@@ -16,11 +16,11 @@ type ResponseError struct {
 	Message    string `json:"message"`
 }
 
-func WriteResponse(c *gin.Context, statusCode int, message string, metadata any, options any) {
+func WriteResponse(c *gin.Context, statusCode int, message string, data any, options any) {
 	res := ResponseSuccess{
 		Message:    message,
 		StatusCode: statusCode,
-		Metadata:   metadata,
+		Data:       data,
 		Options:    options,
 	}
 

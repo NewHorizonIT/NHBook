@@ -10,6 +10,7 @@ import (
 type ICache interface {
 	Set(ctx context.Context, key string, value string, expiration time.Duration) error
 	Get(ctx context.Context, key string) (string, error)
+	Delete(ctx context.Context, key string) error
 }
 
 type Cache struct {
@@ -28,4 +29,8 @@ func (c *Cache) Set(ctx context.Context, key string, value string, expiration ti
 
 func (c *Cache) Get(ctx context.Context, key string) (string, error) {
 	return c.client.Get(ctx, key).Result()
+}
+
+func (c *Cache) Delete(ctx context.Context, key string) error {
+	return c.client.Del(ctx, key).Err()
 }

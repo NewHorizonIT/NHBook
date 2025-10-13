@@ -18,8 +18,8 @@ import (
 type IAuthService interface {
 	Register(ctx *gin.Context, userDataRegister *request.Register) (*response.AuthData, error)
 	Login(userDataLogin *request.Login) (*response.AuthData, error)
-	Logout() (map[string]any, error)
-	HandleRefreshToken(refreshToken string, refreshTokenInStore string, user utils.Claim) (*response.RefreshTokenData, error)
+	Logout(ctx *context.Context, userId string) error
+	HandleRefreshToken(refreshToken string, refreshTokenInStore string, user *utils.Claim) (*response.RefreshTokenData, error)
 	GetInfoUser(id string) (*response.AuthData, error)
 }
 
@@ -34,7 +34,7 @@ func NewAuthService(ur repositories.IUserRepository) IAuthService {
 }
 
 // HandleRefreshToken implements IAuthService.
-func (a *authService) HandleRefreshToken(refreshToken string, refreshTokenInStore string, user utils.Claim) (*response.RefreshTokenData, error) {
+func (a *authService) HandleRefreshToken(refreshToken string, refreshTokenInStore string, user *utils.Claim) (*response.RefreshTokenData, error) {
 
 	// Step 1: Check token
 	if refreshToken != refreshTokenInStore {
@@ -42,7 +42,7 @@ func (a *authService) HandleRefreshToken(refreshToken string, refreshTokenInStor
 	}
 	// Step 2: Generate Access token and Refresh token
 
-	newAccessToken, newRefreshToken, err := utils.CreateTokenPair(user.UserID, user.Email)
+	newAccessToken, newRefreshToken, err := utils.CreateTokenPair(user.UserID, user.Email, user.IsAdmin)
 
 	if err != nil {
 		return nil, fmt.Errorf("create token error: %w", err)
@@ -73,7 +73,7 @@ func (a *authService) Login(userDataLogin *request.Login) (*response.AuthData, e
 	}
 
 	// Step 3: Create new AccessToken and RefreshToken
-	accessToken, refreshToken, err := utils.CreateTokenPair(foundUser.ID, foundUser.Email)
+	accessToken, refreshToken, err := utils.CreateTokenPair(foundUser.ID, foundUser.Email, foundUser.IsAdmin.Bool)
 
 	if err != nil {
 		return nil, fmt.Errorf("create token error: %w", err)
@@ -96,8 +96,8 @@ func (a *authService) Login(userDataLogin *request.Login) (*response.AuthData, e
 }
 
 // Logout implements IAuthService.
-func (a *authService) Logout() (map[string]any, error) {
-	return nil, nil
+func (a *authService) Logout(ctx *context.Context, userId string) error {
+	return nil
 }
 
 // Register implements IAuthService.
@@ -130,7 +130,7 @@ func (a *authService) Register(ctx *gin.Context, userDataRegister *request.Regis
 	}
 
 	// Step 3: Create accessToken  and refreshToken
-	accessToken, refreshToken, err := utils.CreateTokenPair(newUser.ID, newUser.Email)
+	accessToken, refreshToken, err := utils.CreateTokenPair(newUser.ID, newUser.Email, newUser.IsAdmin.Bool)
 
 	if err != nil {
 		return nil, fmt.Errorf("create token error: %w", err)
@@ -140,6 +140,7 @@ func (a *authService) Register(ctx *gin.Context, userDataRegister *request.Regis
 	dataUser := response.UserData{
 		ID:          newUser.ID,
 		Email:       newUser.Email,
+		Username:    newUser.Username,
 		Phone:       newUser.Phone.String,
 		CreatedAt:   newUser.CreatedAt.Time,
 		IsAdmin:     newUser.IsAdmin.Bool,
@@ -157,5 +158,22 @@ func (a *authService) Register(ctx *gin.Context, userDataRegister *request.Regis
 
 // GetInfoUser implements IAuthService.
 func (a *authService) GetInfoUser(id string) (*response.AuthData, error) {
-	panic("Not implement")
+	ctx := context.Background()
+	user, err := a.UserRepo.GetUserByID(ctx, id)
+	if err != nil {
+		return nil, fmt.Errorf("get user by id error: %w", err)
+	}
+	dataUser := response.UserData{
+		ID:          user.ID,
+		Email:       user.Email,
+		Username:    user.Username,
+		Phone:       user.Phone.String,
+		CreatedAt:   user.CreatedAt.Time,
+		IsAdmin:     user.IsAdmin.Bool,
+		DisplayName: user.DisplayName.String,
+	}
+	data := &response.AuthData{
+		User: dataUser,
+	}
+	return data, nil
 }
