@@ -1,0 +1,35 @@
+app:
+  host: "localhost"
+  port: 5555
+  name: "nhbook-api"
+  development_mode: true
+log:
+  level: "info"
+  format: "json"
+  filename: "app.log"
+  app_log: "logs/app.log"
+  request_log: "logs/request.log"
+  error_log: "logs/error.log"
+  enable_console: true
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+db:
+  host: "localhost"
+  port: 5433
+  user: "root"
+  password: "root"
+  name: "nhbook_db"
+  max_idle: 10
+  max_open: 100
+redis:
+  host: "localhost"
+  port: 6378
+  password: ""
+  prefix: "nhbook:"
+jwt:
+  secret: "your_jwt_secret_key"
+  exp_access_minutes: 15
+  exp_refresh_minutes: 10080 # 7days
