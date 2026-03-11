@@ -7,10 +7,12 @@ import (
 	"github.com/NewHorizonIT/nhbook-api/internal/modules/auth/application/usecase"
 	"github.com/NewHorizonIT/nhbook-api/internal/modules/auth/domain"
 	"github.com/NewHorizonIT/nhbook-api/pkg/errs"
+	"github.com/NewHorizonIT/nhbook-api/pkg/logger"
 	"github.com/NewHorizonIT/nhbook-api/pkg/response"
 	"github.com/NewHorizonIT/nhbook-api/pkg/validator"
 	"github.com/gin-gonic/gin"
 	validatorpkg "github.com/go-playground/validator/v10"
+	"go.uber.org/zap"
 )
 
 // AuthHandler chứa tất cả dependencies cần thiết
@@ -42,10 +44,14 @@ func NewAuthHandler(
 // @Success      201 {object} application.CreateUserResponseDTO
 // @Router       /auth/signup [post]
 func (h *AuthHandler) SignUp(c *gin.Context) {
+	ctx := c.Request.Context()
+	log := logger.FromContext(ctx)
+
 	var req application.CreateUserDTO
 
 	// 1. Bind JSON
 	if err := c.ShouldBindJSON(&req); err != nil {
+		log.Warn("SignUp: Invalid request body", zap.Error(err))
 		response.WriteErrorResponse(c, http.StatusBadRequest, "Invalid request body", err.Error())
 		return
 	}
@@ -53,20 +59,25 @@ func (h *AuthHandler) SignUp(c *gin.Context) {
 	// 2. Validate
 	if err := h.validator.Struct(&req); err != nil {
 		validationErrors := validator.GetErrorValidate(err)
+		log.Warn("SignUp: Validation failed", zap.Any("errors", validationErrors))
 		response.WriteErrorResponse(c, http.StatusBadRequest, "Validation failed", validationErrors)
 		return
 	}
 
+	log.Info("SignUp: Creating new user", zap.String("email", req.Email), zap.String("username", req.Username))
+
 	// 3. Execute usecase
-	ctx := c.Request.Context()
 	result, err := h.createUserUsecase.Execute(ctx, &req)
 	if err != nil {
+		log.Error("SignUp: Failed to create user", zap.Error(err))
 		h.handleError(c, err)
 		return
 	}
 
 	// 4. Set refresh token in HttpOnly cookie
 	c.SetCookie("refresh_token", result.RefreshToken, 3600*24*7, "/", "", false, true)
+
+	log.Info("SignUp: User created successfully", zap.String("user_id", result.ID))
 
 	// 5. Success response
 	response.WriteSuccessResponse(c, http.StatusCreated, result)
@@ -82,10 +93,14 @@ func (h *AuthHandler) SignUp(c *gin.Context) {
 // @Success      200 {object} application.LoginResponseDTO
 // @Router       /auth/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
+	ctx := c.Request.Context()
+	log := logger.FromContext(ctx)
+
 	var req application.LoginRequestDTO
 
 	// 1. Bind JSON
 	if err := c.ShouldBindJSON(&req); err != nil {
+		log.Warn("Login: Invalid request body", zap.Error(err))
 		response.WriteErrorResponse(c, http.StatusBadRequest, "Invalid request body", err.Error())
 		return
 	}
@@ -93,22 +108,27 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	// 2. Validate
 	if err := h.validator.Struct(&req); err != nil {
 		validationErrors := validator.GetErrorValidate(err)
+		log.Warn("Login: Validation failed", zap.Any("errors", validationErrors))
 		response.WriteErrorResponse(c, http.StatusBadRequest, "Validation failed", validationErrors)
 		return
 	}
 
+	log.Info("Login: User attempting login", zap.String("email", req.Email))
+
 	// 3. Execute usecase
-	ctx := c.Request.Context()
 	result, err := h.loginUsecase.Execute(ctx, &req)
 	if err != nil {
+		log.Warn("Login: Failed login attempt", zap.String("email", req.Email), zap.Error(err))
 		h.handleError(c, err)
 		return
 	}
 
-	// 5. Set refresh token in HttpOnly cookie
+	// 4. Set refresh token in HttpOnly cookie
 	c.SetCookie("refresh_token", result.RefreshToken, 3600*24*7, "/", "", false, true)
 
-	// 4. Success response
+	log.Info("Login: User logged in successfully", zap.String("user_id", result.ID))
+
+	// 5. Success response
 	response.WriteSuccessResponse(c, http.StatusOK, result)
 }
 

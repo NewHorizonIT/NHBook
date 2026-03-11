@@ -50,10 +50,6 @@ ALTER TABLE books ADD COLUMN search_vector tsvector;
 
 CREATE INDEX idx_books_search ON books USING GIN (search_vector);
 
-ALTER TABLE books ADD COLUMN search_vector tsvector;
-
-CREATE INDEX idx_books_search ON books USING GIN (search_vector);
-
 CREATE FUNCTION books_search_trigger() RETURNS trigger AS $$
 BEGIN
   NEW.search_vector :=
@@ -78,4 +74,8 @@ DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS authors;
 
 DROP TABLE IF EXISTS categories;
+
+DROP TABLE IF EXISTS publishers;
+
+DROP FUNCTION IF EXISTS books_search_trigger ();
 -- +goose StatementEnd

@@ -20,6 +20,10 @@ import (
 
 	_ "github.com/NewHorizonIT/nhbook-api/docs"
 	authModule "github.com/NewHorizonIT/nhbook-api/internal/modules/auth"
+	bookModule "github.com/NewHorizonIT/nhbook-api/internal/modules/book"
+	cartModule "github.com/NewHorizonIT/nhbook-api/internal/modules/cart"
+	orderModule "github.com/NewHorizonIT/nhbook-api/internal/modules/order"
+	paymentModule "github.com/NewHorizonIT/nhbook-api/internal/modules/payment"
 	"github.com/NewHorizonIT/nhbook-api/internal/shared/config"
 	"github.com/NewHorizonIT/nhbook-api/internal/shared/infrastructure/cache"
 	"github.com/NewHorizonIT/nhbook-api/internal/shared/infrastructure/database"
@@ -99,6 +103,26 @@ func main() {
 	auth := authModule.NewAuthModule(db, *cnf)
 	auth.RegisterRoutes(apiGroup)
 	log.App.Info("Auth module initialized successfully")
+
+	// Book Module
+	book := bookModule.NewBookModule(db, redis)
+	book.RegisterRoutes(apiGroup)
+	log.App.Info("Book module initialized successfully")
+
+	// Cart Module
+	cart := cartModule.NewCartModule(db)
+	cart.RegisterRoutes(apiGroup)
+	log.App.Info("Cart module initialized successfully")
+
+	// Order Module
+	order := orderModule.NewOrderModule(db)
+	order.RegisterRoutes(apiGroup)
+	log.App.Info("Order module initialized successfully")
+
+	// Payment Module
+	payment := paymentModule.NewPaymentModule(db)
+	payment.RegisterRoutes(apiGroup)
+	log.App.Info("Payment module initialized successfully")
 
 	// Start server
 	router.Run(":5555")

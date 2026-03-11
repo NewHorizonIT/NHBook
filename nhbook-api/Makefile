@@ -48,15 +48,24 @@ air:
 # Migration commands
 migrate-up: bin/dburl
 	@echo "Applying database migrations..."
-	goose -dir ./internal/modules/auth/migrations up
+	@goose -dir ./internal/modules/auth/migrations up
+	@goose -dir ./internal/modules/book/migrations up
+	@goose -dir ./internal/modules/cart/migrations up
+	@goose -dir ./internal/modules/order/migrations up
+	@goose -dir ./internal/modules/payment/migrations up
 
 migrate-down:
 	@echo "Reverting database migrations..."
 	@goose -dir ./internal/modules/auth/migrations down
+	@goose -dir ./internal/modules/book/migrations down
+	@goose -dir ./internal/modules/cart/migrations down
+	@goose -dir ./internal/modules/order/migrations down
+	@goose -dir ./internal/modules/payment/migrations down
 
 migrate-status:
 	@echo "Checking migration status..."
 	goose -dir ./internal/modules/auth/migrations status
+	goose -dir ./internal/modules/book/migrations status
 migrate-create:
 	@echo "Creating a new migration..."
 ifndef name
