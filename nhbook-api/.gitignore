@@ -1,0 +1,7 @@
+.env
+bin/
+tmp/
+docs/
+logs/
+
+configs/config.yaml
